@@ -38,7 +38,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ### Brenda
 
-<img src="images/brenda77777.png.png" width="200px">
+<img src="images/brenda77777.png" width="200px">
 
 [[github](https://github.com/brenda77777)] [[portfolio](team/johndoe.md)]
 
