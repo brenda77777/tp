@@ -9,12 +9,6 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-
-
-
-
-
-
 ### Jing Yang
 
 <img src="images/jiya-oh.png" width="200px">
@@ -25,3 +19,38 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Responsibilities: Creating, designing, and programming,
 * Running tests to identify bugs and troubleshooting issues to ensure software functionality.
 
+### Gao Huiying
+
+<img src="images/ghyyuan.png" width="200px">
+
+[[github](https://github.com/ghyyuan)]
+
+* Role: Software Developer (Integration)
+* Responsibilities: Lead the implementation of core features, ensuring system reliability through unit testing and documentation.
+Manage the project repository and branching strategy to integrate individual modules into a cohesive, high-quality software release.
+
+### Li Qiyu
+
+<img src="images/leechy67.png" width="200px">
+
+[[github](http://github.com/leechy67)]
+
+* Role: Team Leader
+
+### Xingchen
+
+<img src="images/Xingchen722.png" width="200px">
+
+[[github](https://github.com/Xingchen722]
+
+* Role: Tech Lead
+* Responsibilities: software development
+
+### Brenda
+
+<img src="images/brenda77777.png" width="200px">
+
+[[github](https://github.com/brenda77777)] [[portfolio](team/johndoe.md)]
+
+* Role: Tech Lead 
+* Responsibilities: Backend development
