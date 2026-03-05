@@ -9,17 +9,23 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-### Brenda Tan 
+### Gao Huiying
 
-<img src="images/brenda77777.png" width="200px">
+<img src="images/ghyyuan.png" width="200px">
 
-[[homepage](http://www.comp.nus.edu.sg/~damithch=)]
-[[github](https://github.com/brenda77777)]
-[[portfolio](team/johndoe.md)]
+[[github](https://github.com/ghyyuan)]
 
 * Role: Project Advisor
 
-### Jane Doe
+### Brenda Tan
+
+<img src="images/brenda77777.png" width="200px">
+
+[[github](https://github.com/brenda77777)]
+
+* Role: Project Advisor
+
+### Xingchen
 
 <img src="images/Xingchen722.png" width="200px">
 
