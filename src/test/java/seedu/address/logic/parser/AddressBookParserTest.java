@@ -107,4 +107,24 @@ public class AddressBookParserTest {
         RemarkCommand command = (RemarkCommand) parser.parseCommand("remark 1 r/test");
         assertEquals(new RemarkCommand(Index.fromOneBased(1), new Remark("test")), command);
     }
+
+    @Test
+    public void parseCommand_remarkEmpty() throws Exception {
+        AddressBookParser parser = new AddressBookParser();
+
+        RemarkCommand command =
+                (RemarkCommand) parser.parseCommand("remark 1 r/");
+
+        assertEquals(
+                new RemarkCommand(Index.fromOneBased(1), new Remark("")),
+                command);
+    }
+
+    @Test
+    public void parseCommand_remarkInvalidFormat() {
+        AddressBookParser parser = new AddressBookParser();
+
+        assertThrows(ParseException.class, () ->
+                parser.parseCommand("remark r/test"));
+    }
 }
