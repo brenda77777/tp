@@ -28,6 +28,12 @@ public class RemarkCommand extends Command {
     private final Index index;
     private final Remark remark;
 
+    /**
+     * Creates a RemarkCommand to add a remark to the person at the given index.
+     *
+     * @param index Index of the person in the filtered person list.
+     * @param remark Remark to add to the person.
+     */
     public RemarkCommand(Index index, Remark remark) {
         requireAllNonNull(index, remark);
         this.index = index;
@@ -40,6 +46,9 @@ public class RemarkCommand extends Command {
                 String.format(MESSAGE_ARGUMENTS, index.getOneBased(), remark));
     }
 
+    /**
+     * Returns true if both commands have the same index and remark.
+     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
