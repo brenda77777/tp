@@ -96,4 +96,10 @@ public class PersonTest {
                 + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags() + "}";
         assertEquals(expected, ALICE.toString());
     }
+
+    @Test
+    public void getRemark() {
+        Person person = new PersonBuilder().withRemark("test remark").build();
+        assertEquals(new Remark("test remark"), person.getRemark());
+    }
 }
