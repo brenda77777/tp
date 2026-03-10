@@ -60,7 +60,7 @@ public class ApplicationBuilder {
     /**
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Application} that we are building.
      */
-    public ApplicationBuilder withTags(String ... tags) {
+    public ApplicationBuilder withTags(String... tags) {
         this.tags = SampleDataUtil.getTagSet(tags);
         return this;
     }

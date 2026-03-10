@@ -4,10 +4,10 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_COMPANY_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_COMPANY_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_HREMAIL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_HREMAIL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ROLE_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ROLE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ROLE_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ROLE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
@@ -57,7 +57,8 @@ public class TypicalApplications {
 
     public static final String KEYWORD_MATCHING_MEIER = "Meier"; // A keyword that matches MEIER
 
-    private TypicalApplications() {} // prevents instantiation
+    private TypicalApplications() {
+    } // prevents instantiation
 
     /**
      * Returns an {@code AddressBook} with all the typical applications.

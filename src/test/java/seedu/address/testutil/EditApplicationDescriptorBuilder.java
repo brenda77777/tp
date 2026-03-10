@@ -5,9 +5,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.EditCommand.EditApplicationDescriptor;
+import seedu.address.model.application.Application;
 import seedu.address.model.application.Company;
 import seedu.address.model.application.HrEmail;
-import seedu.address.model.application.Application;
 import seedu.address.model.application.Phone;
 import seedu.address.model.application.Role;
 import seedu.address.model.tag.Tag;

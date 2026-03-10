@@ -15,8 +15,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.model.application.exceptions.DuplicateApplicationException;
 import seedu.address.model.application.exceptions.ApplicationNotFoundException;
+import seedu.address.model.application.exceptions.DuplicateApplicationException;
 import seedu.address.testutil.ApplicationBuilder;
 
 public class UniqueApplicationListTest {
@@ -165,7 +165,7 @@ public class UniqueApplicationListTest {
     @Test
     public void asUnmodifiableObservableList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, ()
-            -> uniqueApplicationList.asUnmodifiableObservableList().remove(0));
+                -> uniqueApplicationList.asUnmodifiableObservableList().remove(0));
     }
 
     @Test
