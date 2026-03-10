@@ -4,8 +4,8 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
- * Represents Hr's email in Hired!.
- * Guarantees: immutable; is valid as declared in {@link #isValidEmail(String)}
+ * Represents HR's email in Hired!.
+ * Guarantees: immutable; is valid as declared in {@link #isValidHrEmail(String)}
  */
 public class HrEmail {
 
@@ -34,20 +34,20 @@ public class HrEmail {
     public final String value;
 
     /**
-     * Constructs an {@code Email}.
+     * Constructs an {@code HrEmail}.
      *
-     * @param email A valid email address.
+     * @param hrEmail A valid HR email address.
      */
-    public HrEmail(String email) {
-        requireNonNull(email);
-        checkArgument(isValidEmail(email), MESSAGE_CONSTRAINTS);
-        value = email;
+    public HrEmail(String hrEmail) {
+        requireNonNull(hrEmail);
+        checkArgument(isValidHrEmail(hrEmail), MESSAGE_CONSTRAINTS);
+        value = hrEmail;
     }
 
     /**
-     * Returns if a given string is a valid email.
+     * Returns true if a given string is a valid HR email.
      */
-    public static boolean isValidEmail(String test) {
+    public static boolean isValidHrEmail(String test) {
         return test.matches(VALIDATION_REGEX);
     }
 
