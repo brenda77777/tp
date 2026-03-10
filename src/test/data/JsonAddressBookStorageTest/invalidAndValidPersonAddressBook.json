@@ -1,13 +1,13 @@
 {
-  "persons": [ {
-    "name": "Valid Person",
+  "applications": [ {
+    "role": "Valid Application",
     "phone": "9482424",
-    "email": "hans@example.com",
+    "hrEmail": "hans@example.com",
     "company": "4th street"
   }, {
-    "name": "Person With Invalid Phone Field",
+    "role": "Application With Invalid Phone Field",
     "phone": "948asdf2424",
-    "email": "hans@example.com",
+    "hrEmail": "hans@example.com",
     "company": "4th street"
   } ]
 }

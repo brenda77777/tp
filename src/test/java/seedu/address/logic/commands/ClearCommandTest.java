@@ -1,7 +1,7 @@
 package seedu.company.logic.commands;
 
 import static seedu.company.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.company.testutil.TypicalPersons.getTypicalCompanyBook;
+import static seedu.company.testutil.TypicalApplications.getTypicalCompanyBook;
 
 import org.junit.jupiter.api.Test;
 

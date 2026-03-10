@@ -17,7 +17,7 @@ import seedu.company.logic.commands.AddCommand;
 import seedu.company.logic.commands.ClearCommand;
 import seedu.company.logic.commands.DeleteCommand;
 import seedu.company.logic.commands.EditCommand;
-import seedu.company.logic.commands.EditCommand.EditPersonDescriptor;
+import seedu.company.logic.commands.EditCommand.EditApplicationDescriptor;
 import seedu.company.logic.commands.ExitCommand;
 import seedu.company.logic.commands.FindCommand;
 import seedu.company.logic.commands.HelpCommand;
@@ -25,9 +25,9 @@ import seedu.company.logic.commands.ListCommand;
 import seedu.company.logic.parser.exceptions.ParseException;
 import seedu.company.model.application.RoleContainsKeywordsPredicate;
 import seedu.company.model.application.Application;
-import seedu.company.testutil.EditPersonDescriptorBuilder;
-import seedu.company.testutil.PersonBuilder;
-import seedu.company.testutil.PersonUtil;
+import seedu.company.testutil.EditApplicationDescriptorBuilder;
+import seedu.company.testutil.ApplicationBuilder;
+import seedu.company.testutil.ApplicationUtil;
 
 public class CompanyBookParserTest {
 
@@ -35,8 +35,8 @@ public class CompanyBookParserTest {
 
     @Test
     public void parseCommand_add() throws Exception {
-        Application application = new PersonBuilder().build();
-        AddCommand command = (AddCommand) parser.parseCommand(PersonUtil.getAddCommand(application));
+        Application application = new ApplicationBuilder().build();
+        AddCommand command = (AddCommand) parser.parseCommand(ApplicationUtil.getAddCommand(application));
         assertEquals(new AddCommand(application), command);
     }
 
@@ -55,10 +55,10 @@ public class CompanyBookParserTest {
 
     @Test
     public void parseCommand_edit() throws Exception {
-        Application application = new PersonBuilder().build();
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(application).build();
+        Application application = new ApplicationBuilder().build();
+        EditApplicationDescriptor descriptor = new EditApplicationDescriptorBuilder(application).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_APPLICATION.getOneBased() + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor));
+                + INDEX_FIRST_APPLICATION.getOneBased() + " " + ApplicationUtil.getEditApplicationDescriptorDetails(descriptor));
         assertEquals(new EditCommand(INDEX_FIRST_APPLICATION, descriptor), command);
     }
 

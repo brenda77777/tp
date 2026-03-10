@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.company.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.company.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.company.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.company.logic.commands.CommandTestUtil.showApplicationAtIndex;
 import static seedu.company.testutil.TypicalIndexes.INDEX_FIRST_APPLICATION;
 import static seedu.company.testutil.TypicalIndexes.INDEX_SECOND_APPLICATION;
-import static seedu.company.testutil.TypicalPersons.getTypicalCompanyBook;
+import static seedu.company.testutil.TypicalApplications.getTypicalCompanyBook;
 
 import org.junit.jupiter.api.Test;
 
@@ -29,21 +29,21 @@ public class DeleteCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        Application applicationToDelete = model.getFilteredPersonList().get(INDEX_FIRST_APPLICATION.getZeroBased());
+        Application applicationToDelete = model.getFilteredApplicationList().get(INDEX_FIRST_APPLICATION.getZeroBased());
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_APPLICATION);
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_APPLICATION_SUCCESS,
                 Messages.format(applicationToDelete));
 
         ModelManager expectedModel = new ModelManager(model.getCompanyBook(), new UserPrefs());
-        expectedModel.deletePerson(applicationToDelete);
+        expectedModel.deleteApplication(applicationToDelete);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredApplicationList().size() + 1);
         DeleteCommand deleteCommand = new DeleteCommand(outOfBoundIndex);
 
         assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_APPLICATION_DISPLAYED_INDEX);
@@ -51,28 +51,28 @@ public class DeleteCommandTest {
 
     @Test
     public void execute_validIndexFilteredList_success() {
-        showPersonAtIndex(model, INDEX_FIRST_APPLICATION);
+        showApplicationAtIndex(model, INDEX_FIRST_APPLICATION);
 
-        Application applicationToDelete = model.getFilteredPersonList().get(INDEX_FIRST_APPLICATION.getZeroBased());
+        Application applicationToDelete = model.getFilteredApplicationList().get(INDEX_FIRST_APPLICATION.getZeroBased());
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_APPLICATION);
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_APPLICATION_SUCCESS,
                 Messages.format(applicationToDelete));
 
         Model expectedModel = new ModelManager(model.getCompanyBook(), new UserPrefs());
-        expectedModel.deletePerson(applicationToDelete);
-        showNoPerson(expectedModel);
+        expectedModel.deleteApplication(applicationToDelete);
+        showNoApplication(expectedModel);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_invalidIndexFilteredList_throwsCommandException() {
-        showPersonAtIndex(model, INDEX_FIRST_APPLICATION);
+        showApplicationAtIndex(model, INDEX_FIRST_APPLICATION);
 
         Index outOfBoundIndex = INDEX_SECOND_APPLICATION;
         // ensures that outOfBoundIndex is still in bounds of company book list
-        assertTrue(outOfBoundIndex.getZeroBased() < model.getCompanyBook().getPersonList().size());
+        assertTrue(outOfBoundIndex.getZeroBased() < model.getCompanyBook().getApplicationList().size());
 
         DeleteCommand deleteCommand = new DeleteCommand(outOfBoundIndex);
 
@@ -97,7 +97,7 @@ public class DeleteCommandTest {
         // null -> returns false
         assertFalse(deleteFirstCommand.equals(null));
 
-        // different person -> returns false
+        // different application -> returns false
         assertFalse(deleteFirstCommand.equals(deleteSecondCommand));
     }
 
@@ -105,16 +105,16 @@ public class DeleteCommandTest {
     public void toStringMethod() {
         Index targetIndex = Index.fromOneBased(1);
         DeleteCommand deleteCommand = new DeleteCommand(targetIndex);
-        String expected = DeleteCommand.class.getCanonicalName() + "{targetIndex=" + targetIndex + "}";
+        String expected = DeleteCommand.class.getCanonicalRole() + "{targetIndex=" + targetIndex + "}";
         assertEquals(expected, deleteCommand.toString());
     }
 
     /**
      * Updates {@code model}'s filtered list to show no one.
      */
-    private void showNoPerson(Model model) {
-        model.updateFilteredPersonList(p -> false);
+    private void showNoApplication(Model model) {
+        model.updateFilteredApplicationList(p -> false);
 
-        assertTrue(model.getFilteredPersonList().isEmpty());
+        assertTrue(model.getFilteredApplicationList().isEmpty());
     }
 }

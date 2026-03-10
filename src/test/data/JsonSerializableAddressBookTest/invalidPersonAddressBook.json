@@ -1,8 +1,8 @@
 {
-  "persons": [ {
-    "name": "Hans Muster",
+  "applications": [ {
+    "role": "Hans Muster",
     "phone": "9482424",
-    "email": "invalid@email!3e",
+    "hrEmail": "invalid@hrEmail!3e",
     "company": "4th street"
   } ]
 }

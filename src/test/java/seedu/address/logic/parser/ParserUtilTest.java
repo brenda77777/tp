@@ -21,13 +21,13 @@ import seedu.company.model.application.Role;
 import seedu.company.model.tag.Tag;
 
 public class ParserUtilTest {
-    private static final String INVALID_NAME = "R@chel";
+    private static final String INVALID_ROLE = "R@chel";
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_COMPANY = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
 
-    private static final String VALID_NAME = "Rachel Walker";
+    private static final String VALID_ROLE = "Rachel Walker";
     private static final String VALID_PHONE = "123456";
     private static final String VALID_COMPANY = "123 Main Street #0505";
     private static final String VALID_EMAIL = "rachel@example.com";
@@ -57,26 +57,26 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void parseName_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parseName((String) null));
+    public void parseRole_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseRole((String) null));
     }
 
     @Test
-    public void parseName_invalidValue_throwsParseException() {
-        assertThrows(ParseException.class, () -> ParserUtil.parseName(INVALID_NAME));
+    public void parseRole_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseRole(INVALID_ROLE));
     }
 
     @Test
-    public void parseName_validValueWithoutWhitespace_returnsName() throws Exception {
-        Role expectedRole = new Role(VALID_NAME);
-        assertEquals(expectedRole, ParserUtil.parseName(VALID_NAME));
+    public void parseRole_validValueWithoutWhitespace_returnsRole() throws Exception {
+        Role expectedRole = new Role(VALID_ROLE);
+        assertEquals(expectedRole, ParserUtil.parseRole(VALID_ROLE));
     }
 
     @Test
-    public void parseName_validValueWithWhitespace_returnsTrimmedName() throws Exception {
-        String nameWithWhitespace = WHITESPACE + VALID_NAME + WHITESPACE;
-        Role expectedRole = new Role(VALID_NAME);
-        assertEquals(expectedRole, ParserUtil.parseName(nameWithWhitespace));
+    public void parseRole_validValueWithWhitespace_returnsTrimmedRole() throws Exception {
+        String roleWithWhitespace = WHITESPACE + VALID_ROLE + WHITESPACE;
+        Role expectedRole = new Role(VALID_ROLE);
+        assertEquals(expectedRole, ParserUtil.parseRole(roleWithWhitespace));
     }
 
     @Test
@@ -143,9 +143,9 @@ public class ParserUtilTest {
 
     @Test
     public void parseEmail_validValueWithWhitespace_returnsTrimmedEmail() throws Exception {
-        String emailWithWhitespace = WHITESPACE + VALID_EMAIL + WHITESPACE;
+        String hrEmailWithWhitespace = WHITESPACE + VALID_EMAIL + WHITESPACE;
         HrEmail expectedHrEmail = new HrEmail(VALID_EMAIL);
-        assertEquals(expectedHrEmail, ParserUtil.parseEmail(emailWithWhitespace));
+        assertEquals(expectedHrEmail, ParserUtil.parseEmail(hrEmailWithWhitespace));
     }
 
     @Test

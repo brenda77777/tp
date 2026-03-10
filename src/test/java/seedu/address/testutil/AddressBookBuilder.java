@@ -6,7 +6,7 @@ import seedu.company.model.application.Application;
 /**
  * A utility class to help with building Companybook objects.
  * Example usage: <br>
- *     {@code CompanyBook ab = new CompanyBookBuilder().withPerson("John", "Doe").build();}
+ *     {@code CompanyBook ab = new CompanyBookBuilder().withApplication("John", "Doe").build();}
  */
 public class CompanyBookBuilder {
 
@@ -21,10 +21,10 @@ public class CompanyBookBuilder {
     }
 
     /**
-     * Adds a new {@code Person} to the {@code CompanyBook} that we are building.
+     * Adds a new {@code Application} to the {@code CompanyBook} that we are building.
      */
-    public CompanyBookBuilder withPerson(Application application) {
-        companyBook.addPerson(application);
+    public CompanyBookBuilder withApplication(Application application) {
+        companyBook.addApplication(application);
         return this;
     }
 

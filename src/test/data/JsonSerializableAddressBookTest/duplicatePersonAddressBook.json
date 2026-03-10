@@ -1,14 +1,14 @@
 {
-  "persons": [ {
-    "name": "Alice Pauline",
+  "applications": [ {
+    "role": "Alice Pauline",
     "phone": "94351253",
-    "email": "alice@example.com",
+    "hrEmail": "alice@example.com",
     "company": "123, Jurong West Ave 6, #08-111",
     "tags": [ "friends" ]
   }, {
-    "name": "Alice Pauline",
+    "role": "Alice Pauline",
     "phone": "94351253",
-    "email": "pauline@example.com",
+    "hrEmail": "pauline@example.com",
     "company": "4th street"
   } ]
 }

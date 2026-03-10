@@ -5,28 +5,28 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.company.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.company.logic.commands.CommandTestUtil.DESC_BOB;
-import static seedu.company.logic.commands.CommandTestUtil.VALID_NAME_BOB;
+import static seedu.company.logic.commands.CommandTestUtil.VALID_ROLE_BOB;
 import static seedu.company.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.company.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.company.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.company.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.company.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.company.logic.commands.CommandTestUtil.showApplicationAtIndex;
 import static seedu.company.testutil.TypicalIndexes.INDEX_FIRST_APPLICATION;
 import static seedu.company.testutil.TypicalIndexes.INDEX_SECOND_APPLICATION;
-import static seedu.company.testutil.TypicalPersons.getTypicalCompanyBook;
+import static seedu.company.testutil.TypicalApplications.getTypicalCompanyBook;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.company.commons.core.index.Index;
 import seedu.company.logic.Messages;
-import seedu.company.logic.commands.EditCommand.EditPersonDescriptor;
+import seedu.company.logic.commands.EditCommand.EditApplicationDescriptor;
 import seedu.company.model.CompanyBook;
 import seedu.company.model.Model;
 import seedu.company.model.ModelManager;
 import seedu.company.model.UserPrefs;
 import seedu.company.model.application.Application;
-import seedu.company.testutil.EditPersonDescriptorBuilder;
-import seedu.company.testutil.PersonBuilder;
+import seedu.company.testutil.EditApplicationDescriptorBuilder;
+import seedu.company.testutil.ApplicationBuilder;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for EditCommand.
@@ -37,43 +37,43 @@ public class EditCommandTest {
 
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() {
-        Application editedApplication = new PersonBuilder().build();
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedApplication).build();
+        Application editedApplication = new ApplicationBuilder().build();
+        EditApplicationDescriptor descriptor = new EditApplicationDescriptorBuilder(editedApplication).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_APPLICATION, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_APPLICATION_SUCCESS, Messages.format(editedApplication));
 
         Model expectedModel = new ModelManager(new CompanyBook(model.getCompanyBook()), new UserPrefs());
-        expectedModel.setPerson(model.getFilteredPersonList().get(0), editedApplication);
+        expectedModel.setApplication(model.getFilteredApplicationList().get(0), editedApplication);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_someFieldsSpecifiedUnfilteredList_success() {
-        Index indexLastPerson = Index.fromOneBased(model.getFilteredPersonList().size());
-        Application lastApplication = model.getFilteredPersonList().get(indexLastPerson.getZeroBased());
+        Index indexLastApplication = Index.fromOneBased(model.getFilteredApplicationList().size());
+        Application lastApplication = model.getFilteredApplicationList().get(indexLastApplication.getZeroBased());
 
-        PersonBuilder personInList = new PersonBuilder(lastApplication);
-        Application editedApplication = personInList.withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
+        ApplicationBuilder applicationInList = new ApplicationBuilder(lastApplication);
+        Application editedApplication = applicationInList.withRole(VALID_ROLE_BOB).withPhone(VALID_PHONE_BOB)
                 .withTags(VALID_TAG_HUSBAND).build();
 
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
+        EditApplicationDescriptor descriptor = new EditApplicationDescriptorBuilder().withRole(VALID_ROLE_BOB)
                 .withPhone(VALID_PHONE_BOB).withTags(VALID_TAG_HUSBAND).build();
-        EditCommand editCommand = new EditCommand(indexLastPerson, descriptor);
+        EditCommand editCommand = new EditCommand(indexLastApplication, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_APPLICATION_SUCCESS, Messages.format(editedApplication));
 
         Model expectedModel = new ModelManager(new CompanyBook(model.getCompanyBook()), new UserPrefs());
-        expectedModel.setPerson(lastApplication, editedApplication);
+        expectedModel.setApplication(lastApplication, editedApplication);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_noFieldSpecifiedUnfilteredList_success() {
-        EditCommand editCommand = new EditCommand(INDEX_FIRST_APPLICATION, new EditPersonDescriptor());
-        Application editedApplication = model.getFilteredPersonList().get(INDEX_FIRST_APPLICATION.getZeroBased());
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_APPLICATION, new EditApplicationDescriptor());
+        Application editedApplication = model.getFilteredApplicationList().get(INDEX_FIRST_APPLICATION.getZeroBased());
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_APPLICATION_SUCCESS, Messages.format(editedApplication));
 
@@ -84,46 +84,46 @@ public class EditCommandTest {
 
     @Test
     public void execute_filteredList_success() {
-        showPersonAtIndex(model, INDEX_FIRST_APPLICATION);
+        showApplicationAtIndex(model, INDEX_FIRST_APPLICATION);
 
-        Application applicationInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_APPLICATION.getZeroBased());
-        Application editedApplication = new PersonBuilder(applicationInFilteredList).withName(VALID_NAME_BOB).build();
+        Application applicationInFilteredList = model.getFilteredApplicationList().get(INDEX_FIRST_APPLICATION.getZeroBased());
+        Application editedApplication = new ApplicationBuilder(applicationInFilteredList).withRole(VALID_ROLE_BOB).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_APPLICATION,
-                new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
+                new EditApplicationDescriptorBuilder().withRole(VALID_ROLE_BOB).build());
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_APPLICATION_SUCCESS, Messages.format(editedApplication));
 
         Model expectedModel = new ModelManager(new CompanyBook(model.getCompanyBook()), new UserPrefs());
-        expectedModel.setPerson(model.getFilteredPersonList().get(0), editedApplication);
+        expectedModel.setApplication(model.getFilteredApplicationList().get(0), editedApplication);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
-    public void execute_duplicatePersonUnfilteredList_failure() {
-        Application firstApplication = model.getFilteredPersonList().get(INDEX_FIRST_APPLICATION.getZeroBased());
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(firstApplication).build();
+    public void execute_duplicateApplicationUnfilteredList_failure() {
+        Application firstApplication = model.getFilteredApplicationList().get(INDEX_FIRST_APPLICATION.getZeroBased());
+        EditApplicationDescriptor descriptor = new EditApplicationDescriptorBuilder(firstApplication).build();
         EditCommand editCommand = new EditCommand(INDEX_SECOND_APPLICATION, descriptor);
 
         assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_APPLICATION);
     }
 
     @Test
-    public void execute_duplicatePersonFilteredList_failure() {
-        showPersonAtIndex(model, INDEX_FIRST_APPLICATION);
+    public void execute_duplicateApplicationFilteredList_failure() {
+        showApplicationAtIndex(model, INDEX_FIRST_APPLICATION);
 
-        // edit person in filtered list into a duplicate in company book
-        Application applicationInList = model.getCompanyBook().getPersonList().get(INDEX_SECOND_APPLICATION.getZeroBased());
+        // edit application in filtered list into a duplicate in company book
+        Application applicationInList = model.getCompanyBook().getApplicationList().get(INDEX_SECOND_APPLICATION.getZeroBased());
         EditCommand editCommand = new EditCommand(INDEX_FIRST_APPLICATION,
-                new EditPersonDescriptorBuilder(applicationInList).build());
+                new EditApplicationDescriptorBuilder(applicationInList).build());
 
         assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_APPLICATION);
     }
 
     @Test
-    public void execute_invalidPersonIndexUnfilteredList_failure() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build();
+    public void execute_invalidApplicationIndexUnfilteredList_failure() {
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredApplicationList().size() + 1);
+        EditApplicationDescriptor descriptor = new EditApplicationDescriptorBuilder().withRole(VALID_ROLE_BOB).build();
         EditCommand editCommand = new EditCommand(outOfBoundIndex, descriptor);
 
         assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_APPLICATION_DISPLAYED_INDEX);
@@ -134,14 +134,14 @@ public class EditCommandTest {
      * but smaller than size of company book
      */
     @Test
-    public void execute_invalidPersonIndexFilteredList_failure() {
-        showPersonAtIndex(model, INDEX_FIRST_APPLICATION);
+    public void execute_invalidApplicationIndexFilteredList_failure() {
+        showApplicationAtIndex(model, INDEX_FIRST_APPLICATION);
         Index outOfBoundIndex = INDEX_SECOND_APPLICATION;
         // ensures that outOfBoundIndex is still in bounds of company book list
-        assertTrue(outOfBoundIndex.getZeroBased() < model.getCompanyBook().getPersonList().size());
+        assertTrue(outOfBoundIndex.getZeroBased() < model.getCompanyBook().getApplicationList().size());
 
         EditCommand editCommand = new EditCommand(outOfBoundIndex,
-                new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
+                new EditApplicationDescriptorBuilder().withRole(VALID_ROLE_BOB).build());
 
         assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_APPLICATION_DISPLAYED_INDEX);
     }
@@ -151,7 +151,7 @@ public class EditCommandTest {
         final EditCommand standardCommand = new EditCommand(INDEX_FIRST_APPLICATION, DESC_AMY);
 
         // same values -> returns true
-        EditPersonDescriptor copyDescriptor = new EditPersonDescriptor(DESC_AMY);
+        EditApplicationDescriptor copyDescriptor = new EditApplicationDescriptor(DESC_AMY);
         EditCommand commandWithSameValues = new EditCommand(INDEX_FIRST_APPLICATION, copyDescriptor);
         assertTrue(standardCommand.equals(commandWithSameValues));
 
@@ -174,10 +174,10 @@ public class EditCommandTest {
     @Test
     public void toStringMethod() {
         Index index = Index.fromOneBased(1);
-        EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
-        EditCommand editCommand = new EditCommand(index, editPersonDescriptor);
-        String expected = EditCommand.class.getCanonicalName() + "{index=" + index + ", editPersonDescriptor="
-                + editPersonDescriptor + "}";
+        EditApplicationDescriptor editApplicationDescriptor = new EditApplicationDescriptor();
+        EditCommand editCommand = new EditCommand(index, editApplicationDescriptor);
+        String expected = EditCommand.class.getCanonicalRole() + "{index=" + index + ", editApplicationDescriptor="
+                + editApplicationDescriptor + "}";
         assertEquals(expected, editCommand.toString());
     }
 

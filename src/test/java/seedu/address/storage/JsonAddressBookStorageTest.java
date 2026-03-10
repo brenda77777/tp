@@ -3,10 +3,10 @@ package seedu.company.storage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static seedu.company.testutil.Assert.assertThrows;
-import static seedu.company.testutil.TypicalPersons.ALICE;
-import static seedu.company.testutil.TypicalPersons.HOON;
-import static seedu.company.testutil.TypicalPersons.IDA;
-import static seedu.company.testutil.TypicalPersons.getTypicalCompanyBook;
+import static seedu.company.testutil.TypicalApplications.ALICE;
+import static seedu.company.testutil.TypicalApplications.HOON;
+import static seedu.company.testutil.TypicalApplications.IDA;
+import static seedu.company.testutil.TypicalApplications.getTypicalCompanyBook;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -51,13 +51,13 @@ public class JsonCompanyBookStorageTest {
     }
 
     @Test
-    public void readCompanyBook_invalidPersonCompanyBook_throwDataLoadingException() {
-        assertThrows(DataLoadingException.class, () -> readCompanyBook("invalidPersonCompanyBook.json"));
+    public void readCompanyBook_invalidApplicationCompanyBook_throwDataLoadingException() {
+        assertThrows(DataLoadingException.class, () -> readCompanyBook("invalidApplicationCompanyBook.json"));
     }
 
     @Test
-    public void readCompanyBook_invalidAndValidPersonCompanyBook_throwDataLoadingException() {
-        assertThrows(DataLoadingException.class, () -> readCompanyBook("invalidAndValidPersonCompanyBook.json"));
+    public void readCompanyBook_invalidAndValidApplicationCompanyBook_throwDataLoadingException() {
+        assertThrows(DataLoadingException.class, () -> readCompanyBook("invalidAndValidApplicationCompanyBook.json"));
     }
 
     @Test
@@ -72,14 +72,14 @@ public class JsonCompanyBookStorageTest {
         assertEquals(original, new CompanyBook(readBack));
 
         // Modify data, overwrite exiting file, and read back
-        original.addPerson(HOON);
-        original.removePerson(ALICE);
+        original.addApplication(HOON);
+        original.removeApplication(ALICE);
         jsonCompanyBookStorage.saveCompanyBook(original, filePath);
         readBack = jsonCompanyBookStorage.readCompanyBook(filePath).get();
         assertEquals(original, new CompanyBook(readBack));
 
         // Save and read without specifying file path
-        original.addPerson(IDA);
+        original.addApplication(IDA);
         jsonCompanyBookStorage.saveCompanyBook(original); // file path not specified
         readBack = jsonCompanyBookStorage.readCompanyBook().get(); // file path not specified
         assertEquals(original, new CompanyBook(readBack));

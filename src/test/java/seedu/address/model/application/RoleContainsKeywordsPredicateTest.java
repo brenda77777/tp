@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.company.testutil.PersonBuilder;
+import seedu.company.testutil.ApplicationBuilder;
 
 public class RoleContainsKeywordsPredicateTest {
 
@@ -35,43 +35,43 @@ public class RoleContainsKeywordsPredicateTest {
         // null -> returns false
         assertFalse(firstPredicate.equals(null));
 
-        // different person -> returns false
+        // different application -> returns false
         assertFalse(firstPredicate.equals(secondPredicate));
     }
 
     @Test
-    public void test_nameContainsKeywords_returnsTrue() {
+    public void test_roleContainsKeywords_returnsTrue() {
         // One keyword
         RoleContainsKeywordsPredicate predicate = new RoleContainsKeywordsPredicate(Collections.singletonList("Alice"));
-        assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
+        assertTrue(predicate.test(new ApplicationBuilder().withRole("Alice Bob").build()));
 
         // Multiple keywords
         predicate = new RoleContainsKeywordsPredicate(Arrays.asList("Alice", "Bob"));
-        assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
+        assertTrue(predicate.test(new ApplicationBuilder().withRole("Alice Bob").build()));
 
         // Only one matching keyword
         predicate = new RoleContainsKeywordsPredicate(Arrays.asList("Bob", "Carol"));
-        assertTrue(predicate.test(new PersonBuilder().withName("Alice Carol").build()));
+        assertTrue(predicate.test(new ApplicationBuilder().withRole("Alice Carol").build()));
 
         // Mixed-case keywords
         predicate = new RoleContainsKeywordsPredicate(Arrays.asList("aLIce", "bOB"));
-        assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
+        assertTrue(predicate.test(new ApplicationBuilder().withRole("Alice Bob").build()));
     }
 
     @Test
-    public void test_nameDoesNotContainKeywords_returnsFalse() {
+    public void test_roleDoesNotContainKeywords_returnsFalse() {
         // Zero keywords
         RoleContainsKeywordsPredicate predicate = new RoleContainsKeywordsPredicate(Collections.emptyList());
-        assertFalse(predicate.test(new PersonBuilder().withName("Alice").build()));
+        assertFalse(predicate.test(new ApplicationBuilder().withRole("Alice").build()));
 
         // Non-matching keyword
         predicate = new RoleContainsKeywordsPredicate(Arrays.asList("Carol"));
-        assertFalse(predicate.test(new PersonBuilder().withName("Alice Bob").build()));
+        assertFalse(predicate.test(new ApplicationBuilder().withRole("Alice Bob").build()));
 
-        // Keywords match phone, email and company, but does not match name
-        predicate = new RoleContainsKeywordsPredicate(Arrays.asList("12345", "alice@email.com", "Main", "Street"));
-        assertFalse(predicate.test(new PersonBuilder().withName("Alice").withPhone("12345")
-                .withEmail("alice@email.com").withCompany("Main Street").build()));
+        // Keywords match phone, hrEmail and company, but does not match role
+        predicate = new RoleContainsKeywordsPredicate(Arrays.asList("12345", "alice@hrEmail.com", "Main", "Street"));
+        assertFalse(predicate.test(new ApplicationBuilder().withRole("Alice").withPhone("12345")
+                .withEmail("alice@hrEmail.com").withCompany("Main Street").build()));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class RoleContainsKeywordsPredicateTest {
         List<String> keywords = List.of("keyword1", "keyword2");
         RoleContainsKeywordsPredicate predicate = new RoleContainsKeywordsPredicate(keywords);
 
-        String expected = RoleContainsKeywordsPredicate.class.getCanonicalName() + "{keywords=" + keywords + "}";
+        String expected = RoleContainsKeywordsPredicate.class.getCanonicalRole() + "{keywords=" + keywords + "}";
         assertEquals(expected, predicate.toString());
     }
 }

@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import seedu.company.logic.commands.EditCommand.EditPersonDescriptor;
+import seedu.company.logic.commands.EditCommand.EditApplicationDescriptor;
 import seedu.company.model.application.Company;
 import seedu.company.model.application.HrEmail;
 import seedu.company.model.application.Application;
@@ -13,26 +13,26 @@ import seedu.company.model.application.Role;
 import seedu.company.model.tag.Tag;
 
 /**
- * A utility class to help with building EditPersonDescriptor objects.
+ * A utility class to help with building EditApplicationDescriptor objects.
  */
-public class EditPersonDescriptorBuilder {
+public class EditApplicationDescriptorBuilder {
 
-    private EditPersonDescriptor descriptor;
+    private EditApplicationDescriptor descriptor;
 
-    public EditPersonDescriptorBuilder() {
-        descriptor = new EditPersonDescriptor();
+    public EditApplicationDescriptorBuilder() {
+        descriptor = new EditApplicationDescriptor();
     }
 
-    public EditPersonDescriptorBuilder(EditPersonDescriptor descriptor) {
-        this.descriptor = new EditPersonDescriptor(descriptor);
+    public EditApplicationDescriptorBuilder(EditApplicationDescriptor descriptor) {
+        this.descriptor = new EditApplicationDescriptor(descriptor);
     }
 
     /**
-     * Returns an {@code EditPersonDescriptor} with fields containing {@code person}'s details
+     * Returns an {@code EditApplicationDescriptor} with fields containing {@code application}'s details
      */
-    public EditPersonDescriptorBuilder(Application application) {
-        descriptor = new EditPersonDescriptor();
-        descriptor.setName(application.getName());
+    public EditApplicationDescriptorBuilder(Application application) {
+        descriptor = new EditApplicationDescriptor();
+        descriptor.setRole(application.getRole());
         descriptor.setPhone(application.getPhone());
         descriptor.setEmail(application.getEmail());
         descriptor.setCompany(application.getCompany());
@@ -40,48 +40,48 @@ public class EditPersonDescriptorBuilder {
     }
 
     /**
-     * Sets the {@code Name} of the {@code EditPersonDescriptor} that we are building.
+     * Sets the {@code Role} of the {@code EditApplicationDescriptor} that we are building.
      */
-    public EditPersonDescriptorBuilder withName(String name) {
-        descriptor.setName(new Role(name));
+    public EditApplicationDescriptorBuilder withRole(String role) {
+        descriptor.setRole(new Role(role));
         return this;
     }
 
     /**
-     * Sets the {@code Phone} of the {@code EditPersonDescriptor} that we are building.
+     * Sets the {@code Phone} of the {@code EditApplicationDescriptor} that we are building.
      */
-    public EditPersonDescriptorBuilder withPhone(String phone) {
+    public EditApplicationDescriptorBuilder withPhone(String phone) {
         descriptor.setPhone(new Phone(phone));
         return this;
     }
 
     /**
-     * Sets the {@code Email} of the {@code EditPersonDescriptor} that we are building.
+     * Sets the {@code Email} of the {@code EditApplicationDescriptor} that we are building.
      */
-    public EditPersonDescriptorBuilder withEmail(String email) {
-        descriptor.setEmail(new HrEmail(email));
+    public EditApplicationDescriptorBuilder withEmail(String hrEmail) {
+        descriptor.setEmail(new HrEmail(hrEmail));
         return this;
     }
 
     /**
-     * Sets the {@code Company} of the {@code EditPersonDescriptor} that we are building.
+     * Sets the {@code Company} of the {@code EditApplicationDescriptor} that we are building.
      */
-    public EditPersonDescriptorBuilder withCompany(String company) {
+    public EditApplicationDescriptorBuilder withCompany(String company) {
         descriptor.setCompany(new Company(company));
         return this;
     }
 
     /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code EditPersonDescriptor}
+     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code EditApplicationDescriptor}
      * that we are building.
      */
-    public EditPersonDescriptorBuilder withTags(String... tags) {
+    public EditApplicationDescriptorBuilder withTags(String... tags) {
         Set<Tag> tagSet = Stream.of(tags).map(Tag::new).collect(Collectors.toSet());
         descriptor.setTags(tagSet);
         return this;
     }
 
-    public EditPersonDescriptor build() {
+    public EditApplicationDescriptor build() {
         return descriptor;
     }
 }

@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.company.logic.parser.CliSyntax.PREFIX_COMPANY;
 import static seedu.company.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.company.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.company.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.company.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.company.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.company.testutil.Assert.assertThrows;
@@ -19,15 +19,15 @@ import seedu.company.model.CompanyBook;
 import seedu.company.model.Model;
 import seedu.company.model.application.RoleContainsKeywordsPredicate;
 import seedu.company.model.application.Application;
-import seedu.company.testutil.EditPersonDescriptorBuilder;
+import seedu.company.testutil.EditApplicationDescriptorBuilder;
 
 /**
  * Contains helper methods for testing commands.
  */
 public class CommandTestUtil {
 
-    public static final String VALID_NAME_AMY = "Amy Bee";
-    public static final String VALID_NAME_BOB = "Bob Choo";
+    public static final String VALID_ROLE_AMY = "Amy Bee";
+    public static final String VALID_ROLE_BOB = "Bob Choo";
     public static final String VALID_PHONE_AMY = "11111111";
     public static final String VALID_PHONE_BOB = "22222222";
     public static final String VALID_EMAIL_AMY = "amy@example.com";
@@ -37,8 +37,8 @@ public class CommandTestUtil {
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
 
-    public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
-    public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
+    public static final String ROLE_DESC_AMY = " " + PREFIX_ROLE + VALID_ROLE_AMY;
+    public static final String ROLE_DESC_BOB = " " + PREFIX_ROLE + VALID_ROLE_BOB;
     public static final String PHONE_DESC_AMY = " " + PREFIX_PHONE + VALID_PHONE_AMY;
     public static final String PHONE_DESC_BOB = " " + PREFIX_PHONE + VALID_PHONE_BOB;
     public static final String EMAIL_DESC_AMY = " " + PREFIX_EMAIL + VALID_EMAIL_AMY;
@@ -48,7 +48,7 @@ public class CommandTestUtil {
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
 
-    public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
+    public static final String INVALID_ROLE_DESC = " " + PREFIX_ROLE + "James&"; // '&' not allowed in roles
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
     public static final String INVALID_COMPANY_DESC = " " + PREFIX_COMPANY; // empty string not allowed for companyes
@@ -57,14 +57,14 @@ public class CommandTestUtil {
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
 
-    public static final EditCommand.EditPersonDescriptor DESC_AMY;
-    public static final EditCommand.EditPersonDescriptor DESC_BOB;
+    public static final EditCommand.EditApplicationDescriptor DESC_AMY;
+    public static final EditCommand.EditApplicationDescriptor DESC_BOB;
 
     static {
-        DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
+        DESC_AMY = new EditApplicationDescriptorBuilder().withRole(VALID_ROLE_AMY)
                 .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withCompany(VALID_COMPANY_AMY)
                 .withTags(VALID_TAG_FRIEND).build();
-        DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
+        DESC_BOB = new EditApplicationDescriptorBuilder().withRole(VALID_ROLE_BOB)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withCompany(VALID_COMPANY_BOB)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
     }
@@ -99,30 +99,30 @@ public class CommandTestUtil {
      * Executes the given {@code command}, confirms that <br>
      * - a {@code CommandException} is thrown <br>
      * - the CommandException message matches {@code expectedMessage} <br>
-     * - the company book, filtered person list and selected person in {@code actualModel} remain unchanged
+     * - the company book, filtered application list and selected application in {@code actualModel} remain unchanged
      */
     public static void assertCommandFailure(Command command, Model actualModel, String expectedMessage) {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
         CompanyBook expectedCompanyBook = new CompanyBook(actualModel.getCompanyBook());
-        List<Application> expectedFilteredList = new ArrayList<>(actualModel.getFilteredPersonList());
+        List<Application> expectedFilteredList = new ArrayList<>(actualModel.getFilteredApplicationList());
 
         assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
         assertEquals(expectedCompanyBook, actualModel.getCompanyBook());
-        assertEquals(expectedFilteredList, actualModel.getFilteredPersonList());
+        assertEquals(expectedFilteredList, actualModel.getFilteredApplicationList());
     }
     /**
-     * Updates {@code model}'s filtered list to show only the person at the given {@code targetIndex} in the
+     * Updates {@code model}'s filtered list to show only the application at the given {@code targetIndex} in the
      * {@code model}'s company book.
      */
-    public static void showPersonAtIndex(Model model, Index targetIndex) {
-        assertTrue(targetIndex.getZeroBased() < model.getFilteredPersonList().size());
+    public static void showApplicationAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getFilteredApplicationList().size());
 
-        Application application = model.getFilteredPersonList().get(targetIndex.getZeroBased());
-        final String[] splitName = application.getName().fullName.split("\\s+");
-        model.updateFilteredPersonList(new RoleContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+        Application application = model.getFilteredApplicationList().get(targetIndex.getZeroBased());
+        final String[] splitRole = application.getRole().fullRole.split("\\s+");
+        model.updateFilteredApplicationList(new RoleContainsKeywordsPredicate(Arrays.asList(splitRole[0])));
 
-        assertEquals(1, model.getFilteredPersonList().size());
+        assertEquals(1, model.getFilteredApplicationList().size());
     }
 
 }

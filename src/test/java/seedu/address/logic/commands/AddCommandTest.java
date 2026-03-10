@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.company.testutil.Assert.assertThrows;
-import static seedu.company.testutil.TypicalPersons.ALICE;
+import static seedu.company.testutil.TypicalApplications.ALICE;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -23,40 +23,40 @@ import seedu.company.model.Model;
 import seedu.company.model.ReadOnlyCompanyBook;
 import seedu.company.model.ReadOnlyUserPrefs;
 import seedu.company.model.application.Application;
-import seedu.company.testutil.PersonBuilder;
+import seedu.company.testutil.ApplicationBuilder;
 
 public class AddCommandTest {
 
     @Test
-    public void constructor_nullPerson_throwsNullPointerException() {
+    public void constructor_nullApplication_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new AddCommand(null));
     }
 
     @Test
-    public void execute_personAcceptedByModel_addSuccessful() throws Exception {
-        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
-        Application validApplication = new PersonBuilder().build();
+    public void execute_applicationAcceptedByModel_addSuccessful() throws Exception {
+        ModelStubAcceptingApplicationAdded modelStub = new ModelStubAcceptingApplicationAdded();
+        Application validApplication = new ApplicationBuilder().build();
 
         CommandResult commandResult = new AddCommand(validApplication).execute(modelStub);
 
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validApplication)),
                 commandResult.getFeedbackToUser());
-        assertEquals(Arrays.asList(validApplication), modelStub.personsAdded);
+        assertEquals(Arrays.asList(validApplication), modelStub.applicationsAdded);
     }
 
     @Test
-    public void execute_duplicatePerson_throwsCommandException() {
-        Application validApplication = new PersonBuilder().build();
+    public void execute_duplicateApplication_throwsCommandException() {
+        Application validApplication = new ApplicationBuilder().build();
         AddCommand addCommand = new AddCommand(validApplication);
-        ModelStub modelStub = new ModelStubWithPerson(validApplication);
+        ModelStub modelStub = new ModelStubWithApplication(validApplication);
 
         assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_APPLICATION, () -> addCommand.execute(modelStub));
     }
 
     @Test
     public void equals() {
-        Application alice = new PersonBuilder().withName("Alice").build();
-        Application bob = new PersonBuilder().withName("Bob").build();
+        Application alice = new ApplicationBuilder().withRole("Alice").build();
+        Application bob = new ApplicationBuilder().withRole("Bob").build();
         AddCommand addAliceCommand = new AddCommand(alice);
         AddCommand addBobCommand = new AddCommand(bob);
 
@@ -73,14 +73,14 @@ public class AddCommandTest {
         // null -> returns false
         assertFalse(addAliceCommand.equals(null));
 
-        // different person -> returns false
+        // different application -> returns false
         assertFalse(addAliceCommand.equals(addBobCommand));
     }
 
     @Test
     public void toStringMethod() {
         AddCommand addCommand = new AddCommand(ALICE);
-        String expected = AddCommand.class.getCanonicalName() + "{toAdd=" + ALICE + "}";
+        String expected = AddCommand.class.getCanonicalRole() + "{toAdd=" + ALICE + "}";
         assertEquals(expected, addCommand.toString());
     }
 
@@ -119,7 +119,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void addPerson(Application application) {
+        public void addApplication(Application application) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -134,65 +134,65 @@ public class AddCommandTest {
         }
 
         @Override
-        public boolean hasPerson(Application application) {
+        public boolean hasApplication(Application application) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void deletePerson(Application target) {
+        public void deleteApplication(Application target) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void setPerson(Application target, Application editedApplication) {
+        public void setApplication(Application target, Application editedApplication) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public ObservableList<Application> getFilteredPersonList() {
+        public ObservableList<Application> getFilteredApplicationList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void updateFilteredPersonList(Predicate<Application> predicate) {
+        public void updateFilteredApplicationList(Predicate<Application> predicate) {
             throw new AssertionError("This method should not be called.");
         }
     }
 
     /**
-     * A Model stub that contains a single person.
+     * A Model stub that contains a single application.
      */
-    private class ModelStubWithPerson extends ModelStub {
+    private class ModelStubWithApplication extends ModelStub {
         private final Application application;
 
-        ModelStubWithPerson(Application application) {
+        ModelStubWithApplication(Application application) {
             requireNonNull(application);
             this.application = application;
         }
 
         @Override
-        public boolean hasPerson(Application application) {
+        public boolean hasApplication(Application application) {
             requireNonNull(application);
             return this.application.isSameApplication(application);
         }
     }
 
     /**
-     * A Model stub that always accept the person being added.
+     * A Model stub that always accept the application being added.
      */
-    private class ModelStubAcceptingPersonAdded extends ModelStub {
-        final ArrayList<Application> personsAdded = new ArrayList<>();
+    private class ModelStubAcceptingApplicationAdded extends ModelStub {
+        final ArrayList<Application> applicationsAdded = new ArrayList<>();
 
         @Override
-        public boolean hasPerson(Application application) {
+        public boolean hasApplication(Application application) {
             requireNonNull(application);
-            return personsAdded.stream().anyMatch(application::isSameApplication);
+            return applicationsAdded.stream().anyMatch(application::isSameApplication);
         }
 
         @Override
-        public void addPerson(Application application) {
+        public void addApplication(Application application) {
             requireNonNull(application);
-            personsAdded.add(application);
+            applicationsAdded.add(application);
         }
 
         @Override

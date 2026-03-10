@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.company.model.Model.PREDICATE_SHOW_ALL_APPLICATIONS;
 import static seedu.company.testutil.Assert.assertThrows;
-import static seedu.company.testutil.TypicalPersons.ALICE;
-import static seedu.company.testutil.TypicalPersons.BENSON;
+import static seedu.company.testutil.TypicalApplications.ALICE;
+import static seedu.company.testutil.TypicalApplications.BENSON;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -73,29 +73,29 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void hasPerson_nullPerson_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> modelManager.hasPerson(null));
+    public void hasApplication_nullApplication_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.hasApplication(null));
     }
 
     @Test
-    public void hasPerson_personNotInCompanyBook_returnsFalse() {
-        assertFalse(modelManager.hasPerson(ALICE));
+    public void hasApplication_applicationNotInCompanyBook_returnsFalse() {
+        assertFalse(modelManager.hasApplication(ALICE));
     }
 
     @Test
-    public void hasPerson_personInCompanyBook_returnsTrue() {
-        modelManager.addPerson(ALICE);
-        assertTrue(modelManager.hasPerson(ALICE));
+    public void hasApplication_applicationInCompanyBook_returnsTrue() {
+        modelManager.addApplication(ALICE);
+        assertTrue(modelManager.hasApplication(ALICE));
     }
 
     @Test
-    public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredPersonList().remove(0));
+    public void getFilteredApplicationList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredApplicationList().remove(0));
     }
 
     @Test
     public void equals() {
-        CompanyBook companyBook = new CompanyBookBuilder().withPerson(ALICE).withPerson(BENSON).build();
+        CompanyBook companyBook = new CompanyBookBuilder().withApplication(ALICE).withApplication(BENSON).build();
         CompanyBook differentCompanyBook = new CompanyBook();
         UserPrefs userPrefs = new UserPrefs();
 
@@ -117,12 +117,12 @@ public class ModelManagerTest {
         assertFalse(modelManager.equals(new ModelManager(differentCompanyBook, userPrefs)));
 
         // different filteredList -> returns false
-        String[] keywords = ALICE.getName().fullName.split("\\s+");
-        modelManager.updateFilteredPersonList(new RoleContainsKeywordsPredicate(Arrays.asList(keywords)));
+        String[] keywords = ALICE.getRole().fullRole.split("\\s+");
+        modelManager.updateFilteredApplicationList(new RoleContainsKeywordsPredicate(Arrays.asList(keywords)));
         assertFalse(modelManager.equals(new ModelManager(companyBook, userPrefs)));
 
         // resets modelManager to initial state for upcoming tests
-        modelManager.updateFilteredPersonList(PREDICATE_SHOW_ALL_APPLICATIONS);
+        modelManager.updateFilteredApplicationList(PREDICATE_SHOW_ALL_APPLICATIONS);
 
         // different userPrefs -> returns false
         UserPrefs differentUserPrefs = new UserPrefs();

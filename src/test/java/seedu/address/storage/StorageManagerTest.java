@@ -2,7 +2,7 @@ package seedu.company.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static seedu.company.testutil.TypicalPersons.getTypicalCompanyBook;
+import static seedu.company.testutil.TypicalApplications.getTypicalCompanyBook;
 
 import java.nio.file.Path;
 
@@ -29,8 +29,8 @@ public class StorageManagerTest {
         storageManager = new StorageManager(companyBookStorage, userPrefsStorage);
     }
 
-    private Path getTempFilePath(String fileName) {
-        return testFolder.resolve(fileName);
+    private Path getTempFilePath(String fileRole) {
+        return testFolder.resolve(fileRole);
     }
 
     @Test

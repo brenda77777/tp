@@ -12,11 +12,11 @@ import seedu.company.model.tag.Tag;
 import seedu.company.model.util.SampleDataUtil;
 
 /**
- * A utility class to help with building Person objects.
+ * A utility class to help with building Application objects.
  */
-public class PersonBuilder {
+public class ApplicationBuilder {
 
-    public static final String DEFAULT_NAME = "Amy Bee";
+    public static final String DEFAULT_ROLE = "Amy Bee";
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_COMPANY = "123, Jurong West Ave 6, #08-111";
@@ -28,10 +28,10 @@ public class PersonBuilder {
     private Set<Tag> tags;
 
     /**
-     * Creates a {@code PersonBuilder} with the default details.
+     * Creates a {@code ApplicationBuilder} with the default details.
      */
-    public PersonBuilder() {
-        role = new Role(DEFAULT_NAME);
+    public ApplicationBuilder() {
+        role = new Role(DEFAULT_ROLE);
         phone = new Phone(DEFAULT_PHONE);
         hrEmail = new HrEmail(DEFAULT_EMAIL);
         company = new Company(DEFAULT_COMPANY);
@@ -39,10 +39,10 @@ public class PersonBuilder {
     }
 
     /**
-     * Initializes the PersonBuilder with the data of {@code personToCopy}.
+     * Initializes the ApplicationBuilder with the data of {@code applicationToCopy}.
      */
-    public PersonBuilder(Application applicationToCopy) {
-        role = applicationToCopy.getName();
+    public ApplicationBuilder(Application applicationToCopy) {
+        role = applicationToCopy.getRole();
         phone = applicationToCopy.getPhone();
         hrEmail = applicationToCopy.getEmail();
         company = applicationToCopy.getCompany();
@@ -50,42 +50,42 @@ public class PersonBuilder {
     }
 
     /**
-     * Sets the {@code Name} of the {@code Person} that we are building.
+     * Sets the {@code Role} of the {@code Application} that we are building.
      */
-    public PersonBuilder withName(String name) {
-        this.role = new Role(name);
+    public ApplicationBuilder withRole(String role) {
+        this.role = new Role(role);
         return this;
     }
 
     /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Person} that we are building.
+     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Application} that we are building.
      */
-    public PersonBuilder withTags(String ... tags) {
+    public ApplicationBuilder withTags(String ... tags) {
         this.tags = SampleDataUtil.getTagSet(tags);
         return this;
     }
 
     /**
-     * Sets the {@code Company} of the {@code Person} that we are building.
+     * Sets the {@code Company} of the {@code Application} that we are building.
      */
-    public PersonBuilder withCompany(String company) {
+    public ApplicationBuilder withCompany(String company) {
         this.company = new Company(company);
         return this;
     }
 
     /**
-     * Sets the {@code Phone} of the {@code Person} that we are building.
+     * Sets the {@code Phone} of the {@code Application} that we are building.
      */
-    public PersonBuilder withPhone(String phone) {
+    public ApplicationBuilder withPhone(String phone) {
         this.phone = new Phone(phone);
         return this;
     }
 
     /**
-     * Sets the {@code Email} of the {@code Person} that we are building.
+     * Sets the {@code Email} of the {@code Application} that we are building.
      */
-    public PersonBuilder withEmail(String email) {
-        this.hrEmail = new HrEmail(email);
+    public ApplicationBuilder withEmail(String hrEmail) {
+        this.hrEmail = new HrEmail(hrEmail);
         return this;
     }
 

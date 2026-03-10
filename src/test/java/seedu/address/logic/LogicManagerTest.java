@@ -5,10 +5,10 @@ import static seedu.company.logic.Messages.MESSAGE_INVALID_APPLICATION_DISPLAYED
 import static seedu.company.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.company.logic.commands.CommandTestUtil.COMPANY_DESC_AMY;
 import static seedu.company.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
-import static seedu.company.logic.commands.CommandTestUtil.NAME_DESC_AMY;
+import static seedu.company.logic.commands.CommandTestUtil.ROLE_DESC_AMY;
 import static seedu.company.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.company.testutil.Assert.assertThrows;
-import static seedu.company.testutil.TypicalPersons.AMY;
+import static seedu.company.testutil.TypicalApplications.AMY;
 
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
@@ -31,7 +31,7 @@ import seedu.company.model.application.Application;
 import seedu.company.storage.JsonCompanyBookStorage;
 import seedu.company.storage.JsonUserPrefsStorage;
 import seedu.company.storage.StorageManager;
-import seedu.company.testutil.PersonBuilder;
+import seedu.company.testutil.ApplicationBuilder;
 
 public class LogicManagerTest {
     private static final IOException DUMMY_IO_EXCEPTION = new IOException("dummy IO exception");
@@ -83,8 +83,8 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredPersonList().remove(0));
+    public void getFilteredApplicationList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredApplicationList().remove(0));
     }
 
     /**
@@ -165,11 +165,11 @@ public class LogicManagerTest {
         logic = new LogicManager(model, storage);
 
         // Triggers the saveCompanyBook method by executing an add command
-        String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
+        String addCommand = AddCommand.COMMAND_WORD + ROLE_DESC_AMY + PHONE_DESC_AMY
                 + EMAIL_DESC_AMY + COMPANY_DESC_AMY;
-        Application expectedApplication = new PersonBuilder(AMY).withTags().build();
+        Application expectedApplication = new ApplicationBuilder(AMY).withTags().build();
         ModelManager expectedModel = new ModelManager();
-        expectedModel.addPerson(expectedApplication);
+        expectedModel.addApplication(expectedApplication);
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
     }
 }
