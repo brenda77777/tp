@@ -12,7 +12,7 @@ import seedu.address.model.application.Application;
  */
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
-    Predicate<Application> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
+    Predicate<Application> PREDICATE_SHOW_ALL_APPLICATIONS = unused -> true;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -53,35 +53,35 @@ public interface Model {
     ReadOnlyAddressBook getAddressBook();
 
     /**
-     * Returns true if a person with the same identity as {@code person} exists in the address book.
+     * Returns true if an application with the same identity as {@code application} exists in the address book.
      */
-    boolean hasPerson(Application application);
+    boolean hasApplication(Application application);
 
     /**
-     * Deletes the given person.
-     * The person must exist in the address book.
+     * Deletes the given application.
+     * The application must exist in the address book.
      */
-    void deletePerson(Application target);
+    void deleteApplication(Application target);
 
     /**
-     * Adds the given person.
-     * {@code person} must not already exist in the address book.
+     * Adds the given application.
+     * {@code application} must not already exist in the address book.
      */
-    void addPerson(Application application);
+    void addApplication(Application application);
 
     /**
-     * Replaces the given person {@code target} with {@code editedPerson}.
+     * Replaces the given application {@code target} with {@code editedApplication}.
      * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
+     * The application identity of {@code editedApplication} must not be the same as another existing application in the address book.
      */
-    void setPerson(Application target, Application editedApplication);
+    void setApplication(Application target, Application editedApplication);
 
-    /** Returns an unmodifiable view of the filtered person list */
-    ObservableList<Application> getFilteredPersonList();
+    /** Returns an unmodifiable view of the filtered application list */
+    ObservableList<Application> getFilteredApplicationList();
 
     /**
-     * Updates the filter of the filtered person list to filter by the given {@code predicate}.
+     * Updates the filter of the filtered application list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
-    void updateFilteredPersonList(Predicate<Application> predicate);
+    void updateFilteredApplicationList(Predicate<Application> predicate);
 }

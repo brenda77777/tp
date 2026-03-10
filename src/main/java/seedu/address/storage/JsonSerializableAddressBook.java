@@ -19,16 +19,16 @@ import seedu.address.model.application.Application;
 @JsonRootName(value = "addressbook")
 class JsonSerializableAddressBook {
 
-    public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
+    public static final String MESSAGE_DUPLICATE_APPLICATION = "Applications list contains duplicate application(s).";
 
-    private final List<JsonAdaptedApplication> persons = new ArrayList<>();
+    private final List<JsonAdaptedApplication> applications = new ArrayList<>();
 
     /**
-     * Constructs a {@code JsonSerializableAddressBook} with the given persons.
+     * Constructs a {@code JsonSerializableAddressBook} with the given applications.
      */
     @JsonCreator
-    public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedApplication> persons) {
-        this.persons.addAll(persons);
+    public JsonSerializableAddressBook(@JsonProperty("applications") List<JsonAdaptedApplication> applications) {
+        this.applications.addAll(applications);
     }
 
     /**
@@ -37,7 +37,8 @@ class JsonSerializableAddressBook {
      * @param source future changes to this will not affect the created {@code JsonSerializableAddressBook}.
      */
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
-        persons.addAll(source.getPersonList().stream().map(JsonAdaptedApplication::new).collect(Collectors.toList()));
+        applications.addAll(source.getApplicationList().stream()
+                .map(JsonAdaptedApplication::new).collect(Collectors.toList()));
     }
 
     /**
@@ -47,12 +48,12 @@ class JsonSerializableAddressBook {
      */
     public AddressBook toModelType() throws IllegalValueException {
         AddressBook addressBook = new AddressBook();
-        for (JsonAdaptedApplication jsonAdaptedApplication : persons) {
+        for (JsonAdaptedApplication jsonAdaptedApplication : applications) {
             Application application = jsonAdaptedApplication.toModelType();
-            if (addressBook.hasPerson(application)) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
+            if (addressBook.hasApplication(application)) {
+                throw new IllegalValueException(MESSAGE_DUPLICATE_APPLICATION);
             }
-            addressBook.addPerson(application);
+            addressBook.addApplication(application);
         }
         return addressBook;
     }
