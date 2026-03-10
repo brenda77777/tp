@@ -79,7 +79,7 @@ public class RoleContainsKeywordsPredicateTest {
         List<String> keywords = List.of("keyword1", "keyword2");
         RoleContainsKeywordsPredicate predicate = new RoleContainsKeywordsPredicate(keywords);
 
-        String expected = RoleContainsKeywordsPredicate.class.getCanonicalRole() + "{keywords=" + keywords + "}";
+        String expected = RoleContainsKeywordsPredicate.class.getCanonicalName() + "{keywords=" + keywords + "}";
         assertEquals(expected, predicate.toString());
     }
 }

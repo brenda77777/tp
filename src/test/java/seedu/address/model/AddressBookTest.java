@@ -85,7 +85,7 @@ public class AddressBookTest {
 
     @Test
     public void toStringMethod() {
-        String expected = AddressBook.class.getCanonicalRole() + "{applications=" + companyBook.getApplicationList() + "}";
+        String expected = AddressBook.class.getCanonicalName() + "{applications=" + companyBook.getApplicationList() + "}";
         assertEquals(expected, companyBook.toString());
     }
 

@@ -92,7 +92,7 @@ public class ApplicationTest {
 
     @Test
     public void toStringMethod() {
-        String expected = Application.class.getCanonicalRole() + "{role=" + ALICE.getRole() + ", phone=" + ALICE.getPhone()
+        String expected = Application.class.getCanonicalName() + "{role=" + ALICE.getRole() + ", phone=" + ALICE.getPhone()
                 + ", hrEmail=" + ALICE.getHrEmail() + ", company=" + ALICE.getCompany() + ", tags=" + ALICE.getTags() + "}";
         assertEquals(expected, ALICE.toString());
     }
