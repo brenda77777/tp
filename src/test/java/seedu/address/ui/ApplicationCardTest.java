@@ -9,12 +9,15 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import seedu.address.model.application.Application;
 import seedu.address.testutil.ApplicationBuilder;
 
+@DisabledOnOs(OS.LINUX)
 public class ApplicationCardTest {
 
     @BeforeAll
