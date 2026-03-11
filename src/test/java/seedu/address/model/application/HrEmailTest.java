@@ -60,7 +60,8 @@ public class HrEmailTest {
         assertTrue(HrEmail.isValidHrEmail("a@bc")); // minimal
         assertTrue(HrEmail.isValidHrEmail("test@localhost")); // alphabets only
         assertTrue(HrEmail.isValidHrEmail("123@145")); // numeric local part and domain role
-        assertTrue(HrEmail.isValidHrEmail("a1+be.d@example1.com")); // mixture of alphanumeric and special characters
+        // mixture of alphanumeric and special characters
+        assertTrue(HrEmail.isValidHrEmail("a1+be.d@example1.com"));
         assertTrue(HrEmail.isValidHrEmail("peter_jack@very-very-very-long-example.com")); // long domain role
         assertTrue(HrEmail.isValidHrEmail("if.you.dream.it_you.can.do.it@example.com")); // long local part
         assertTrue(HrEmail.isValidHrEmail("e1234567@u.nus.edu")); // more than one period in domain
