@@ -115,6 +115,27 @@ public class ApplicationCardTest {
                 .anyMatch(label -> label.getText().equals("applied")));
     }
 
+    @Test
+    public void constructor_withExistingTags_addsStatusTagAsWell() throws Exception {
+        Application application = new ApplicationBuilder()
+                .withCompanyName("Google")
+                .withCompanyLocation("Singapore")
+                .withRole("Intern")
+                .withPhone("91234567")
+                .withHrEmail("hr@google.com")
+                .withTags("atag", "ztag")
+                .build();
+
+        ApplicationCard applicationCard = new ApplicationCard(application, 1);
+
+        FlowPane tagsPane = getTagsPane(applicationCard);
+
+        assertEquals(3, tagsPane.getChildren().size());
+        assertEquals("atag", ((Label) tagsPane.getChildren().get(0)).getText());
+        assertEquals("ztag", ((Label) tagsPane.getChildren().get(1)).getText());
+        assertEquals("applied", ((Label) tagsPane.getChildren().get(2)).getText());
+    }
+
     private String getLabelText(ApplicationCard card, String fieldName) throws Exception {
         Field field = ApplicationCard.class.getDeclaredField(fieldName);
         field.setAccessible(true);
