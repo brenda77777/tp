@@ -132,7 +132,8 @@ Examples:
 
 ### Changing the default status: `status`
 
-Changes the status of the application to APPLIED, INTERVIEWING, OFFERED, REJECTED or WITHDRAWN.
+Changes the status of an application to APPLIED, INTERVIEWING, OFFERED, REJECTED, or WITHDRAWN.
+The accepted input keywords are apply, interviewing, offered, rejected, and withdraw, and they are not case-sensitive.
 
 Format: `status INDEX s/STATUS`
 
