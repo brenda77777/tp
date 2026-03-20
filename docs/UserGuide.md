@@ -83,7 +83,7 @@ An application can have any number of tags (including 0).
 </div>
 
 Examples:
-* `add r/Software Engineer p/98765432 e/hr@google.com l/Boon Lay c/Google`
+* `add r/Software Engineer p/98765432 e/hr@google.com c/Google l/Boon Lay`
 * `add r/Software Engineer p/98765432 e/hr@google.com c/Google l/Singapore t/interview t/priority`
 
 ### Listing all applications : `list`
