@@ -17,6 +17,7 @@ import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import seedu.address.model.application.Application;
+import seedu.address.model.application.Status;
 import seedu.address.testutil.ApplicationBuilder;
 
 @DisabledOnOs(OS.LINUX)
@@ -160,6 +161,42 @@ public class ApplicationCardTest {
         assertEquals("atag", ((Label) tagsPane.getChildren().get(0)).getText());
         assertEquals("ztag", ((Label) tagsPane.getChildren().get(1)).getText());
         assertEquals("applied", ((Label) tagsPane.getChildren().get(2)).getText());
+    }
+
+    @Test
+    public void constructor_withoutUserTags_addsOnlyStatusTag() throws Exception {
+        Application application = new ApplicationBuilder()
+                .withCompanyName("Google")
+                .withCompanyLocation("Singapore")
+                .withRole("Intern")
+                .withPhone("91234567")
+                .withHrEmail("hr@google.com")
+                .build();
+
+        ApplicationCard applicationCard = new ApplicationCard(application, 1);
+        FlowPane tagsPane = getTagsPane(applicationCard);
+
+        assertEquals(1, tagsPane.getChildren().size());
+        assertEquals("applied", ((Label) tagsPane.getChildren().get(0)).getText());
+    }
+
+    @Test
+    public void constructor_withDifferentStatus_statusTagMatchesLowercaseStatus() throws Exception {
+        Application application = new ApplicationBuilder()
+                .withCompanyName("Google")
+                .withCompanyLocation("Singapore")
+                .withRole("Intern")
+                .withPhone("91234567")
+                .withHrEmail("hr@google.com")
+                .withStatus(Status.OFFERED)
+                .build();
+
+        ApplicationCard applicationCard = new ApplicationCard(application, 1);
+        FlowPane tagsPane = getTagsPane(applicationCard);
+
+        assertTrue(tagsPane.getChildren().stream()
+                .map(node -> (Label) node)
+                .anyMatch(label -> label.getText().equals("offered")));
     }
 
     private String getLabelText(ApplicationCard card, String fieldName) throws Exception {
