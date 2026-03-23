@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Objects;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
@@ -50,5 +51,25 @@ public class DeadlineCommand extends Command {
 
         model.setApplication(appToEdit, editedApp);
         return new CommandResult("Deadline updated for: " + editedApp.getCompany());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof DeadlineCommand)) {
+            return false;
+        }
+
+        DeadlineCommand otherDeadlineCommand = (DeadlineCommand) other;
+        return index.equals(otherDeadlineCommand.index)
+                && deadline.equals(otherDeadlineCommand.deadline);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(index, deadline);
     }
 }

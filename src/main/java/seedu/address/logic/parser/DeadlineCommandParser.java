@@ -29,16 +29,10 @@ public class DeadlineCommandParser implements Parser<DeadlineCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeadlineCommand.MESSAGE_USAGE));
         }
 
-        try {
-            // 使用 ParserUtil 解析 Index
-            Index index = ParserUtil.parseIndex(parts[0]);
-            // 将剩余部分封装进 Deadline 对象
-            Deadline deadline = new Deadline(parts[1]);
-
-            return new DeadlineCommand(index, deadline);
-        } catch (ParseException pe) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeadlineCommand.MESSAGE_USAGE), pe);
-        }
+        // Use ParserUtil to parse the Index: If the index is not valid,
+        // directly throw the original ParseException information
+        Index index = ParserUtil.parseIndex(parts[0]);
+        Deadline deadline = new Deadline(parts[1]);
+        return new DeadlineCommand(index, deadline);
     }
 }

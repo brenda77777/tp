@@ -6,9 +6,21 @@ import java.util.Objects;
  * The deadline for representing the application.
  */
 public class Deadline implements Comparable<Deadline> {
+    public static final String MESSAGE_CONSTRAINTS =
+            "Deadlines should not be blank and should ideally follow yyyy-MM-dd format";
+
     public static final String EMPTY_DEADLINE_VALUE = "No deadline set";
+    public static final String PLACEHOLDER_DEADLINE = "-";
     public final String value;
 
+    /**
+     * Constructs a {@code Deadline}.
+     *
+     * <p>Blank input will be treated as an empty deadline placeholder.
+     *
+     * @param value the deadline value.
+     * @throws NullPointerException if {@code value} is {@code null}.
+     */
     public Deadline(String value) {
         this.value = (value == null || value.isBlank()) ? EMPTY_DEADLINE_VALUE : value;
     }
@@ -19,6 +31,32 @@ public class Deadline implements Comparable<Deadline> {
 
     public boolean isEmpty() {
         return value.equals(EMPTY_DEADLINE_VALUE);
+    }
+
+    /**
+     * Returns true if a given string is a valid deadline.
+     * <p>
+     * Valid values are:
+     * <ul>
+     *     <li>{@code "yyyy-MM-dd"}</li>
+     *     <li>{@code "yyyy-MM-dd HH:mm"}</li>
+     *     <li>{@code "-"} as an empty/deadline-unset placeholder</li>
+     * </ul>
+     *
+     * @throws NullPointerException if {@code test} is {@code null}
+     */
+    public static boolean isValidDeadline(String test) {
+        Objects.requireNonNull(test);
+        if (test.isBlank()) {
+            return false;
+        }
+
+        if (test.equals(PLACEHOLDER_DEADLINE)) {
+            return true;
+        }
+
+        return test.matches("\\d{4}-\\d{2}-\\d{2}")
+                || test.matches("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}");
     }
 
     @Override
