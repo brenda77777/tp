@@ -138,6 +138,7 @@ class JsonAdaptedApplication {
             throw new IllegalValueException("Invalid status: " + status);
         }
 
-        return new Application(modelRole, modelPhone, modelHrEmail, modelCompany, modelTags, modelStatus, modelDeadline);
+        return new Application(modelRole, modelPhone, modelHrEmail, modelCompany,
+                modelTags, modelStatus, modelDeadline);
     }
 }

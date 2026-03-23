@@ -1,9 +1,7 @@
 package seedu.address.model.application;
 
-import static java.util.Objects.requireNonNull;
-
 /**
- * 代表申请的截止日期。
+ * The deadline for representing the application.
  */
 public class Deadline implements Comparable<Deadline> {
     public static final String EMPTY_DEADLINE_VALUE = "No deadline set";
@@ -24,9 +22,15 @@ public class Deadline implements Comparable<Deadline> {
     @Override
     public int compareTo(Deadline other) {
         // 排序逻辑：空的 deadline 在最后
-        if (this.isEmpty() && !other.isEmpty()) return 1;
-        if (!this.isEmpty() && other.isEmpty()) return -1;
-        if (this.isEmpty() && other.isEmpty()) return 0;
+        if (this.isEmpty() && !other.isEmpty()) {
+            return 1;
+        }
+        if (!this.isEmpty() && other.isEmpty()) {
+            return -1;
+        }
+        if (this.isEmpty() && other.isEmpty()) {
+            return 0;
+        }
 
         return this.value.compareTo(other.value);
     }

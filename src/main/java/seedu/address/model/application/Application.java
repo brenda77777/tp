@@ -34,8 +34,8 @@ public class Application {
     /**
      * Every field must be present and not null.
      */
-    public Application(Role role, Phone phone, HrEmail hrEmail, Company company, Set<Tag> tags
-            , Status status, Deadline deadline) {
+    public Application(Role role, Phone phone, HrEmail hrEmail, Company company, Set<Tag> tags,
+            Status status, Deadline deadline) {
         requireAllNonNull(role, phone, hrEmail, company, tags, status, deadline);
         this.role = role;
         this.phone = phone;

@@ -11,6 +11,9 @@ import seedu.address.model.Model;
 import seedu.address.model.application.Application;
 import seedu.address.model.application.Deadline;
 
+/**
+ * Sets or updates the deadline for an application in the address book.
+ */
 public class DeadlineCommand extends Command {
     public static final String COMMAND_WORD = "deadline";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Sets the deadline for an application.\n"
@@ -20,6 +23,12 @@ public class DeadlineCommand extends Command {
     private final Index index;
     private final Deadline deadline;
 
+    /**
+     * Creates a {@code DeadlineCommand} to update the deadline of the application at the given index.
+     *
+     * @param index the index of the application in the displayed application list.
+     * @param deadline the new deadline.
+     */
     public DeadlineCommand(Index index, Deadline deadline) {
         this.index = index;
         this.deadline = deadline;
