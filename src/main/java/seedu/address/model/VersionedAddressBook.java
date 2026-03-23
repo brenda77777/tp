@@ -8,6 +8,8 @@ import java.util.List;
  * It achieves Undo and Redo by maintaining a status list and a pointer.
  */
 public class VersionedAddressBook extends AddressBook {
+    private static final int MAX_UNDO_LIMIT = 10;
+
     private final List<ReadOnlyAddressBook> addressBookStateList;
     private int currentStatePointer;
 
@@ -27,6 +29,11 @@ public class VersionedAddressBook extends AddressBook {
         removeStatesAfterPointer();
         addressBookStateList.add(new AddressBook(this));
         currentStatePointer++;
+
+        if (addressBookStateList.size() > MAX_UNDO_LIMIT) {
+            addressBookStateList.remove(0);
+            currentStatePointer--;
+        }
     }
 
     /**
