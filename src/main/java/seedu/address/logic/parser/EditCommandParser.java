@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_COMPANY_LOCATION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_COMPANY_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DEADLINE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_HREMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
@@ -19,6 +20,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditApplicationDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.application.Deadline;
 import seedu.address.model.application.Status;
 import seedu.address.model.tag.Tag;
 
@@ -36,7 +38,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_ROLE, PREFIX_PHONE, PREFIX_HREMAIL,
-                        PREFIX_COMPANY_NAME, PREFIX_COMPANY_LOCATION, PREFIX_TAG, PREFIX_STATUS);
+                        PREFIX_COMPANY_NAME, PREFIX_COMPANY_LOCATION, PREFIX_TAG, PREFIX_STATUS, PREFIX_DEADLINE);
 
         Index index;
 
@@ -47,7 +49,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_ROLE, PREFIX_PHONE, PREFIX_HREMAIL,
-                PREFIX_COMPANY_NAME, PREFIX_COMPANY_LOCATION);
+                PREFIX_COMPANY_NAME, PREFIX_COMPANY_LOCATION, PREFIX_DEADLINE);
 
         EditApplicationDescriptor editApplicationDescriptor = new EditApplicationDescriptor();
 
@@ -70,10 +72,6 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editApplicationDescriptor::setTags);
 
-        if (!editApplicationDescriptor.isAnyFieldEdited()) {
-            throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
-        }
-
         if (argMultimap.getValue(PREFIX_STATUS).isPresent()) {
             try {
                 Status status = Status.valueOf(argMultimap.getValue(PREFIX_STATUS).get().toUpperCase());
@@ -82,6 +80,15 @@ public class EditCommandParser implements Parser<EditCommand> {
                 throw new ParseException("Invalid status. Valid values: APPLIED,"
                         + " INTERVIEWING, OFFERED, REJECTED, WITHDRAWN");
             }
+        }
+
+        if (argMultimap.getValue(PREFIX_DEADLINE).isPresent()) {
+            editApplicationDescriptor.setDeadline(new Deadline(argMultimap.getValue(PREFIX_DEADLINE).get()));
+        }
+
+        //check this after others
+        if (!editApplicationDescriptor.isAnyFieldEdited()) {
+            throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }
 
         return new EditCommand(index, editApplicationDescriptor);

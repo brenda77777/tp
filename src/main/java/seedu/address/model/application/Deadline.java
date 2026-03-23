@@ -1,0 +1,96 @@
+package seedu.address.model.application;
+
+import java.util.Objects;
+
+/**
+ * The deadline for representing the application.
+ */
+public class Deadline implements Comparable<Deadline> {
+    public static final String MESSAGE_CONSTRAINTS =
+            "Deadlines should not be blank and should ideally follow yyyy-MM-dd format";
+
+    public static final String EMPTY_DEADLINE_VALUE = "No deadline set";
+    public static final String PLACEHOLDER_DEADLINE = "-";
+    public final String value;
+
+    /**
+     * Constructs a {@code Deadline}.
+     *
+     * <p>Blank input will be treated as an empty deadline placeholder.
+     *
+     * @param value the deadline value.
+     * @throws NullPointerException if {@code value} is {@code null}.
+     */
+    public Deadline(String value) {
+        this.value = (value == null || value.isBlank()) ? EMPTY_DEADLINE_VALUE : value;
+    }
+
+    public static Deadline getEmptyDeadline() {
+        return new Deadline(EMPTY_DEADLINE_VALUE);
+    }
+
+    public boolean isEmpty() {
+        return value.equals(EMPTY_DEADLINE_VALUE);
+    }
+
+    /**
+     * Returns true if a given string is a valid deadline.
+     * <p>
+     * Valid values are:
+     * <ul>
+     *     <li>{@code "yyyy-MM-dd"}</li>
+     *     <li>{@code "yyyy-MM-dd HH:mm"}</li>
+     *     <li>{@code "-"} as an empty/deadline-unset placeholder</li>
+     * </ul>
+     *
+     * @throws NullPointerException if {@code test} is {@code null}
+     */
+    public static boolean isValidDeadline(String test) {
+        Objects.requireNonNull(test);
+        if (test.isBlank()) {
+            return false;
+        }
+
+        if (test.equals(PLACEHOLDER_DEADLINE)) {
+            return true;
+        }
+
+        return test.matches("\\d{4}-\\d{2}-\\d{2}")
+                || test.matches("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}");
+    }
+
+    @Override
+    public int compareTo(Deadline other) {
+        // 排序逻辑：空的 deadline 在最后
+        if (this.isEmpty() && !other.isEmpty()) {
+            return 1;
+        }
+        if (!this.isEmpty() && other.isEmpty()) {
+            return -1;
+        }
+        if (this.isEmpty() && other.isEmpty()) {
+            return 0;
+        }
+
+        return this.value.compareTo(other.value);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof Deadline)) {
+            return false;
+        }
+
+        Deadline otherDeadline = (Deadline) other;
+        return value.equals(otherDeadline.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
+    }
+}
