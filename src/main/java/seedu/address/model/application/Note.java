@@ -1,47 +1,36 @@
 package seedu.address.model.application;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
- * Represents the role of an application in Hired!.
- * Guarantees: immutable; is valid as declared in {@link #isValidRole(String)}
+ * Represents a Note in an Application.
  */
-public class Role {
-
+public class Note {
     public static final String MESSAGE_CONSTRAINTS =
-            "Role should only contain alphanumeric characters and spaces, and it should not be blank";
+            "Note can be empty and can contain any text.";
 
-    /*
-     * The first character of the role must not be a whitespace,
-     * otherwise " " (a blank string) becomes a valid input.
-     */
-    public static final String VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*";
-
-    public final String roleName;
+    public final String value;
 
     /**
-     * Constructs a {@code Role}.
+     * Constructs a {@code Note}.
      *
-     * @param role A valid role.
+     * @param value A valid note.
      */
-    public Role(String role) {
-        requireNonNull(role);
-        checkArgument(isValidRole(role), MESSAGE_CONSTRAINTS);
-        roleName = role;
+    public Note(String value) {
+        requireNonNull(value);
+        this.value = value;
     }
 
     /**
-     * Returns true if a given string is a valid role.
+     * Returns true if a given string is a valid note.
      */
-    public static boolean isValidRole(String test) {
-        return test.matches(VALIDATION_REGEX);
+    public static boolean isValidNote(String test) {
+        return test != null;
     }
-
 
     @Override
     public String toString() {
-        return roleName;
+        return value;
     }
 
     @Override
@@ -50,18 +39,16 @@ public class Role {
             return true;
         }
 
-        // instanceof handles nulls
-        if (!(other instanceof Role)) {
+        if (!(other instanceof Note)) {
             return false;
         }
 
-        Role otherRole = (Role) other;
-        return roleName.equals(otherRole.roleName);
+        Note otherNote = (Note) other;
+        return value.equals(otherNote.value);
     }
 
     @Override
     public int hashCode() {
-        return roleName.hashCode();
+        return value.hashCode();
     }
-
 }
