@@ -26,32 +26,30 @@ import seedu.address.model.application.Status;
  */
 public class TypicalApplications {
 
-    public static final Application ALICE = new ApplicationBuilder().withRole("Software Engineer")
+    public static final Application GOOGLE_SWE = new ApplicationBuilder().withRole("Software Engineer")
             .withCompanyName("Google").withCompanyLocation("Singapore")
             .withHrEmail("alice@example.com").withPhone("94351253")
             .withTags("friends").build();
-    public static final Application BENSON = new ApplicationBuilder().withRole("Data Analyst")
+    public static final Application META_DA = new ApplicationBuilder().withRole("Data Analyst")
             .withCompanyName("Meta").withCompanyLocation("Menlo Park")
             .withHrEmail("johnd@example.com").withPhone("98765432")
             .withTags("owesMoney", "friends").build();
-    public static final Application CARL = new ApplicationBuilder().withRole("Frontend Developer")
+    public static final Application SHOPEE_FD = new ApplicationBuilder().withRole("Frontend Developer")
             .withPhone("95352563").withHrEmail("heinz@example.com")
             .withCompanyName("Shopee").withCompanyLocation("Singapore").build();
-    public static final Application DANIEL = new ApplicationBuilder().withRole("Backend Engineer")
+    public static final Application TIKTOK_BE = new ApplicationBuilder().withRole("Backend Engineer")
             .withPhone("87652533").withHrEmail("cornelia@example.com")
             .withCompanyName("TikTok").withCompanyLocation("Singapore")
             .withTags("friends").build();
-    public static final Application ELLE = new ApplicationBuilder().withRole("Product Manager")
+    public static final Application GRAB_PM = new ApplicationBuilder().withRole("Product Manager")
             .withPhone("9482224").withHrEmail("werner@example.com")
-            .withCompanyName("Grab").withCompanyLocation("Singapore").build();
-    public static final Application FIONA = new ApplicationBuilder().withCompanyName("Meta")
-            .withRole("Data Analyst").withPhone("9482427")
-            .withHrEmail("lydia@example.com")
             .withCompanyLocation("") // empty location
             .withDeadline("") // empty deadline
             .withNote("") // empty note
-            .withStatus(Status.REJECTED).build();
-    public static final Application GEORGE = new ApplicationBuilder().withRole("DevOps Engineer")
+            .withStatus(Status.REJECTED)
+            .withCompanyName("Grab").
+            withCompanyLocation("Singapore").build();
+    public static final Application MICROSOFT_DE = new ApplicationBuilder().withRole("DevOps Engineer")
             .withPhone("9482442").withHrEmail("anna@example.com")
             .withCompanyName("Microsoft").withCompanyLocation("Redmond").build();
 
@@ -88,6 +86,6 @@ public class TypicalApplications {
     }
 
     public static List<Application> getTypicalApplications() {
-        return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
+        return new ArrayList<>(Arrays.asList(GOOGLE_SWE, META_DA, SHOPEE_FD, TIKTOK_BE, GRAB_PM, MICROSOFT_DE));
     }
 }
