@@ -60,7 +60,7 @@ public class Application {
      * @param phone
      * @param hrEmail
      * @param company
-     * @param tags  
+     * @param tags
     }
 
     /**
