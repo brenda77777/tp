@@ -18,14 +18,6 @@ public class ApplicationCard extends UiPart<Region> {
 
     private static final String FXML = "ApplicationListCard.fxml";
 
-    /**
-     * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
-     * As a consequence, UI elements' variable names cannot be set to such keywords
-     * or an exception will be thrown by JavaFX during runtime.
-     *
-     * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on AddressBook level 4</a>
-     */
-
     public final Application application;
 
     @FXML
@@ -48,6 +40,8 @@ public class ApplicationCard extends UiPart<Region> {
     private FlowPane tags;
     @FXML
     private Label deadline;
+    @FXML
+    private Label note;
 
     /**
      * Creates a {@code ApplicationCard} with the given {@code Application} and index to display.
@@ -61,7 +55,6 @@ public class ApplicationCard extends UiPart<Region> {
         hrEmail.setText(application.getHrEmail().value);
         companyName.setText(application.getCompany().companyName);
 
-        // company location
         String loc = application.getCompany().companyLocation;
         if (loc.isEmpty()) {
             companyLocation.setVisible(false);
@@ -70,11 +63,20 @@ public class ApplicationCard extends UiPart<Region> {
             companyLocation.setText(loc);
         }
 
+        String deadlineValue = application.getDeadline().value;
         if (application.getDeadline().isEmpty()) {
             deadline.setVisible(false);
             deadline.setManaged(false);
         } else {
             deadline.setText("Deadline: " + application.getDeadline().value);
+        }
+
+        String noteValue = application.getNote().value;
+        if (noteValue.isEmpty()) {
+            note.setVisible(false);
+            note.setManaged(false);
+        } else {
+            note.setText("Note: " + noteValue);
         }
 
         status.setVisible(false);
