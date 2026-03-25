@@ -370,3 +370,7 @@
 #tags .status-withdrawn {
     -fx-background-color: #d85d1c;
 }
+
+#tags .tag-urgent {
+    -fx-background-color: #ae3535;
+}

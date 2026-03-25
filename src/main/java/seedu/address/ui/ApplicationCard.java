@@ -60,7 +60,6 @@ public class ApplicationCard extends UiPart<Region> {
         phone.setText(application.getPhone().value);
         hrEmail.setText(application.getHrEmail().value);
         companyName.setText(application.getCompany().companyName);
-        deadline.setText("Deadline: " + application.getDeadline().value);
 
         // company location
         String loc = application.getCompany().companyLocation;
@@ -71,16 +70,13 @@ public class ApplicationCard extends UiPart<Region> {
             companyLocation.setText(loc);
         }
 
-        // deadline
-        String deadlineValue = application.getDeadline().value;
         if (application.getDeadline().isEmpty()) {
             deadline.setVisible(false);
             deadline.setManaged(false);
         } else {
-            deadline.setText("Deadline: " + deadlineValue);
+            deadline.setText("Deadline: " + application.getDeadline().value);
         }
 
-        // status.setText("Status: " + application.getStatus().toString());
         status.setVisible(false);
         status.setManaged(false);
 
@@ -89,7 +85,7 @@ public class ApplicationCard extends UiPart<Region> {
                 .forEach(tag -> {
                     Label tagLabel = new Label(tag.tagName);
                     if (tag.tagName.equalsIgnoreCase(REMINDER_TAG_NAME)) {
-                        tagLabel.setStyle("-fx-background-color: #ae3535; -fx-text-fill: white;");
+                        tagLabel.getStyleClass().add("tag-urgent");
                     }
                     tags.getChildren().add(tagLabel);
                 });

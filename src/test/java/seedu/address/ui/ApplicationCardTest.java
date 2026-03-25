@@ -348,9 +348,6 @@ public class ApplicationCardTest {
         return (FlowPane) field.get(card);
     }
 
-    /**
-     * 辅助方法：从 tags 容器中找到对应的 status tag。
-     */
     private Label getStatusTag(ApplicationCard card, String statusText) throws Exception {
         FlowPane tagsPane = getTagsPane(card);
         return (Label) tagsPane.getChildren().stream()
@@ -360,6 +357,4 @@ public class ApplicationCardTest {
                 .findFirst()
                 .orElseThrow(() -> new AssertionError("Status tag not found: " + statusText));
     }
-
-
 }
