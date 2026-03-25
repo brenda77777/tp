@@ -26,6 +26,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_ROLE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_COMPANY_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DEADLINE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_HREMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
@@ -209,5 +210,46 @@ public class EditCommandParserTest {
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_deadlineSpecified_success() {
+        Index targetIndex = INDEX_FIRST_APPLICATION;
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_DEADLINE + "2026-12-31";
+
+        EditApplicationDescriptor descriptor = new EditApplicationDescriptorBuilder()
+                .withDeadline("2026-12-31").build();
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_noteSpecified_success() {
+        Index targetIndex = INDEX_FIRST_APPLICATION;
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_NOTE + "Interview went well";
+
+        EditApplicationDescriptor descriptor = new EditApplicationDescriptorBuilder()
+                .withNote("Interview went well").build();
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_invalidDeadline_failure() {
+        Index targetIndex = INDEX_FIRST_APPLICATION;
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_DEADLINE + "invalid date";
+
+        assertParseFailure(parser, userInput, Deadline.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_invalidNote_failure() {
+        Index targetIndex = INDEX_FIRST_APPLICATION;
+        String longNote = "a".repeat(1001); // 超过 1000 字符限制
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_NOTE + longNote;
+
+        assertParseFailure(parser, userInput, Note.MESSAGE_CONSTRAINTS);
     }
 }
