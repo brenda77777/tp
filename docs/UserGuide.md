@@ -244,7 +244,7 @@ Format: redo
 
 Examples:
 * clear followed by `undo` (restores data), then `redo` (clears data again).
- 
+
 ### Clearing all entries : `clear`
 
 Clears all application records from Hired!.
