@@ -48,8 +48,8 @@ public class TypicalApplications {
             .withRole("Data Analyst").withPhone("9482427")
             .withHrEmail("lydia@example.com")
             .withCompanyLocation("") // empty location
-            .withDeadline("")        // empty deadline
-            .withNote("")            // empty note
+            .withDeadline("") // empty deadline
+            .withNote("") // empty note
             .withStatus(Status.REJECTED).build();
     public static final Application GEORGE = new ApplicationBuilder().withRole("DevOps Engineer")
             .withPhone("9482442").withHrEmail("anna@example.com")
