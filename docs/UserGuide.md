@@ -167,6 +167,20 @@ Examples:
 * `status 1 s/OFFERED` changes the status to `offered`
 * `status 1 s/selected` will result in an error as `selected` is not a given status.
 
+### Setting the deadline for an application : `deadline`
+
+Sets or updates the deadline for the application identified by its index.
+
+Format: `deadline INDEX DATE_TIME`
+
+* The `DATE_TIME` can be `yyyy-MM-dd`, `yyyy-MM-dd HH:mm`.
+* The index refers to the index number shown in the displayed application list.
+* This deadline is used by `reminder` and `sort time`.
+
+Examples:
+* `deadline 1 2026-12-31`
+* `deadline 1 2026-12-31 23:59`
+
 ### Deleting an application : `delete`
 
 Deletes the specified application record from Hired!.
@@ -288,8 +302,10 @@ Action | Format, Examples
 **Find Note** | `findnote KEYWORD [MORE_KEYWORDS]`<br> e.g. `findnote recruiter follow`
 **List** | `list`
 **Status** | `status INDEX s/STATUS` <br> e.g. `status 2 s/offered`
+**Deadline** | `deadline INDEX DATE_TIME` <br> e.g. `deadline 1 2026-12-31 23:59`
 **Reminder** | `reminder` <br> Highlights applications nearing deadlines and sorts by urgency (nearest first). Applications within 3 days are marked as Urgent.
 **Sort** | `sort [CRITERION]` <br> CRITERION: `time` or `alphabet` <br> e.g. `sort time`, `sort alphabet`
 **Undo** | `undo` <br> Reverts the most recent data-modifying command (up to 10 steps).
 **Redo** | `redo` <br> Reapplies the most recently undone command.
+**Exit** | `exit`
 **Help** | `help`
