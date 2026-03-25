@@ -2,8 +2,8 @@ package seedu.address.model.application;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.testutil.TypicalApplications.ALICE;
-import static seedu.address.testutil.TypicalApplications.BENSON;
+import static seedu.address.testutil.TypicalApplications.GOOGLE_SWE;
+import static seedu.address.testutil.TypicalApplications.META_DA;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,11 +33,11 @@ public class NoteContainsKeywordsPredicateTest {
         NoteContainsKeywordsPredicate predicate =
                 new NoteContainsKeywordsPredicate(Arrays.asList("follow", "recruiter"));
 
-        Application applicationWithFollow = new ApplicationBuilder(ALICE)
+        Application applicationWithFollow = new ApplicationBuilder(GOOGLE_SWE)
                 .withNote("Follow up next Monday")
                 .build();
 
-        Application applicationWithRecruiter = new ApplicationBuilder(BENSON)
+        Application applicationWithRecruiter = new ApplicationBuilder(META_DA)
                 .withNote("Met recruiter at career fair")
                 .build();
 
@@ -50,7 +50,7 @@ public class NoteContainsKeywordsPredicateTest {
         NoteContainsKeywordsPredicate predicate =
                 new NoteContainsKeywordsPredicate(Arrays.asList("follow", "recruiter"));
 
-        Application application = new ApplicationBuilder(ALICE)
+        Application application = new ApplicationBuilder(GOOGLE_SWE)
                 .withNote("Send thank you email")
                 .build();
 
@@ -62,7 +62,7 @@ public class NoteContainsKeywordsPredicateTest {
         NoteContainsKeywordsPredicate predicate =
                 new NoteContainsKeywordsPredicate(Collections.singletonList("follow"));
 
-        Application application = new ApplicationBuilder(ALICE)
+        Application application = new ApplicationBuilder(GOOGLE_SWE)
                 .withNote("")
                 .build();
 

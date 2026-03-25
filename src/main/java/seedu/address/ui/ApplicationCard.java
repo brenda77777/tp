@@ -12,7 +12,7 @@ import javafx.scene.layout.Region;
 import seedu.address.model.application.Application;
 
 /**
- * An UI component that displays information of a {@code Application}.
+ * A UI component that displays information of a {@code Application}.
  */
 public class ApplicationCard extends UiPart<Region> {
 
@@ -55,28 +55,25 @@ public class ApplicationCard extends UiPart<Region> {
         hrEmail.setText(application.getHrEmail().value);
         companyName.setText(application.getCompany().companyName);
 
-        String loc = application.getCompany().companyLocation;
-        if (loc.isEmpty()) {
+        if (application.getCompany().companyLocation.isEmpty()) {
             companyLocation.setVisible(false);
             companyLocation.setManaged(false);
         } else {
-            companyLocation.setText(loc);
+            companyLocation.setText(application.getCompany().companyLocation);
         }
 
-        String deadlineValue = application.getDeadline().value;
         if (application.getDeadline().isEmpty()) {
             deadline.setVisible(false);
             deadline.setManaged(false);
         } else {
-            deadline.setText("Deadline: " + deadlineValue);
+            deadline.setText("Deadline: " + application.getDeadline().value);
         }
 
-        String noteValue = application.getNote().value;
-        if (noteValue.isEmpty()) {
+        if (application.getNote().value.isEmpty()) {
             note.setVisible(false);
             note.setManaged(false);
         } else {
-            note.setText("Note: " + noteValue);
+            note.setText("Note: " + application.getNote().value);
         }
 
         status.setVisible(false);
@@ -87,13 +84,14 @@ public class ApplicationCard extends UiPart<Region> {
                 .forEach(tag -> {
                     Label tagLabel = new Label(tag.tagName);
                     if (tag.tagName.equalsIgnoreCase(REMINDER_TAG_NAME)) {
-                        tagLabel.setStyle("-fx-background-color: #FF0000; -fx-text-fill: white;");
+                        tagLabel.getStyleClass().add("tag-urgent");
                     }
                     tags.getChildren().add(tagLabel);
                 });
 
         String statusText = application.getStatus().toString().toLowerCase();
         Label statusTag = new Label(statusText);
+        statusTag.getStyleClass().add("status-" + statusText.replace(" ", "-"));
         tags.getChildren().add(statusTag);
     }
 }

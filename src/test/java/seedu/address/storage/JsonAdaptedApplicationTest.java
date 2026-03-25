@@ -3,7 +3,7 @@ package seedu.address.storage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.address.storage.JsonAdaptedApplication.MISSING_FIELD_MESSAGE_FORMAT;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalApplications.BENSON;
+import static seedu.address.testutil.TypicalApplications.META_DA;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,23 +26,23 @@ public class JsonAdaptedApplicationTest {
     private static final String INVALID_TAG = "#friend";
     private static final String INVALID_DATETIME = "31-12-2026 23:59";
 
-    private static final String VALID_ROLE = BENSON.getRole().toString();
-    private static final String VALID_PHONE = BENSON.getPhone().toString();
-    private static final String VALID_HREMAIL = BENSON.getHrEmail().toString();
-    private static final String VALID_COMPANY_NAME = BENSON.getCompany().companyName;
-    private static final String VALID_COMPANY_LOCATION = BENSON.getCompany().companyLocation;
-    private static final List<JsonAdaptedTag> VALID_TAGS = BENSON.getTags().stream()
+    private static final String VALID_ROLE = META_DA.getRole().toString();
+    private static final String VALID_PHONE = META_DA.getPhone().toString();
+    private static final String VALID_HREMAIL = META_DA.getHrEmail().toString();
+    private static final String VALID_COMPANY_NAME = META_DA.getCompany().companyName;
+    private static final String VALID_COMPANY_LOCATION = META_DA.getCompany().companyLocation;
+    private static final List<JsonAdaptedTag> VALID_TAGS = META_DA.getTags().stream()
             .map(JsonAdaptedTag::new)
             .collect(Collectors.toList());
-    private static final String VALID_STATUS = BENSON.getStatus().toString();
+    private static final String VALID_STATUS = META_DA.getStatus().toString();
     private static final String VALID_DEADLINE = "2026-12-31 23:59";
     private static final String VALID_DATETIME = "2026-12-31 23:59";
     private static final String VALID_NOTE = "";
 
     @Test
     public void toModelType_validApplicationDetails_returnsApplication() throws Exception {
-        JsonAdaptedApplication application = new JsonAdaptedApplication(BENSON);
-        assertEquals(BENSON, application.toModelType());
+        JsonAdaptedApplication application = new JsonAdaptedApplication(META_DA);
+        assertEquals(META_DA, application.toModelType());
     }
 
     @Test
