@@ -70,6 +70,19 @@ public class ApplicationTest {
         String roleWithTrailingSpaces = VALID_ROLE_BOB + " ";
         editedBob = new ApplicationBuilder(BOB).withRole(roleWithTrailingSpaces).build();
         assertFalse(BOB.isSameApplication(editedBob));
+
+        // company name differs only in case, same location -> returns true
+        Application caseChangedCompanyName = new ApplicationBuilder(GOOGLE_SWE)
+                .withCompany(GOOGLE_SWE.getCompany().companyName.toUpperCase())
+                .withCompanyLocation(GOOGLE_SWE.getCompany().companyLocation)
+                .build();
+        assertTrue(GOOGLE_SWE.isSameApplication(caseChangedCompanyName));
+
+        // company location differs only in case, same company name -> returns true
+        Application caseChangedCompanyLocation = new ApplicationBuilder(GOOGLE_SWE)
+                .withCompanyLocation(GOOGLE_SWE.getCompany().companyLocation.toUpperCase())
+                .build();
+        assertTrue(GOOGLE_SWE.isSameApplication(caseChangedCompanyLocation));
     }
 
     @Test
@@ -118,7 +131,10 @@ public class ApplicationTest {
                 GOOGLE_SWE.getTags());
 
         assertEquals(Status.APPLIED, applicationWithDefaultStatus.getStatus());
+        assertEquals(Deadline.getEmptyDeadline(), applicationWithDefaultStatus.getDeadline());
+        assertEquals(new Note(""), applicationWithDefaultStatus.getNote());
         assertEquals(Resume.getEmptyResume(), applicationWithDefaultStatus.getResume());
+        assertFalse(applicationWithDefaultStatus.hasResume());
     }
 
     @Test
