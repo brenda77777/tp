@@ -91,7 +91,6 @@ public class Deadline implements Comparable<Deadline> {
 
     @Override
     public int compareTo(Deadline other) {
-        // 排序逻辑：空的 deadline 在最后
         if (this.isEmpty() && !other.isEmpty()) {
             return 1;
         }
