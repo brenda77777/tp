@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +22,8 @@ import seedu.address.testutil.ApplicationBuilder;
 
 public class ApplicationCardTest {
 
+    private static boolean jfxToolkitAvailable = false;
+
     @BeforeAll
     public static void initJfxRuntime() throws Exception {
         CountDownLatch latch = new CountDownLatch(1);
@@ -29,8 +32,13 @@ public class ApplicationCardTest {
         } catch (IllegalStateException e) {
             // JavaFX toolkit already initialized.
             latch.countDown();
+        } catch (UnsupportedOperationException e) {
+            // Headless / unsupported environment (e.g., CI on Linux without JavaFX toolkit).
+            jfxToolkitAvailable = false;
+            return;
         }
-        assertTrue(latch.await(5, TimeUnit.SECONDS));
+        jfxToolkitAvailable = latch.await(5, TimeUnit.SECONDS);
+        assertTrue(jfxToolkitAvailable);
     }
 
     // ── formatPhone ──────────────────────────────────────────────────────────
@@ -344,6 +352,7 @@ public class ApplicationCardTest {
 
     @Test
     public void constructor_deadlinePresent_initializesDeadlineGraphicAndIcons() {
+        Assumptions.assumeTrue(jfxToolkitAvailable);
         ApplicationCard card = new ApplicationCard(
                 new ApplicationBuilder()
                         .withDeadline("2026-03-12 21:00")
@@ -358,12 +367,14 @@ public class ApplicationCardTest {
 
     @Test
     public void constructor_noDeadline_hidesDeadlineField() {
+        Assumptions.assumeTrue(jfxToolkitAvailable);
         ApplicationCard card = new ApplicationCard(new ApplicationBuilder().build(), 1);
         assertNotNull(card);
     }
 
     @Test
     public void constructor_resumePresent_showsResumeIcon() {
+        Assumptions.assumeTrue(jfxToolkitAvailable);
         Application base = new ApplicationBuilder()
                 .withDeadline("2026-03-12 21:00")
                 .build();
