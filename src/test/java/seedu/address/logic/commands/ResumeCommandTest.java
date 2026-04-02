@@ -48,8 +48,7 @@ public class ResumeCommandTest {
 
     @Test
     public void constructor_nullResume_throwsNullPointerException() {
-        assertThrows(NullPointerException.class,
-                () -> new ResumeCommand(Index.fromOneBased(1), null));
+        assertThrows(NullPointerException.class, () -> new ResumeCommand(Index.fromOneBased(1), null));
     }
 
     @Test
@@ -83,11 +82,7 @@ public class ResumeCommandTest {
                 new Resume("resume.pdf")
         );
 
-        assertThrows(
-                CommandException.class,
-                MESSAGE_INVALID_APPLICATION_DISPLAYED_INDEX,
-                () -> command.execute(model)
-        );
+        assertThrows(CommandException.class, MESSAGE_INVALID_APPLICATION_DISPLAYED_INDEX, () -> command.execute(model));
     }
 
     @Test
@@ -100,11 +95,7 @@ public class ResumeCommandTest {
                 new Resume(tempDir.resolve("missing.pdf").toString())
         );
 
-        assertThrows(
-                CommandException.class,
-                ResumeCommand.MESSAGE_FILE_NOT_FOUND,
-                () -> command.execute(model)
-        );
+        assertThrows(CommandException.class, ResumeCommand.MESSAGE_FILE_NOT_FOUND, () -> command.execute(model));
     }
 
     @Test
@@ -117,11 +108,7 @@ public class ResumeCommandTest {
                 new Resume("resume.pdf")
         );
 
-        assertThrows(
-                CommandException.class,
-                ResumeCommand.MESSAGE_FILE_NOT_FOUND,
-                () -> command.execute(model)
-        );
+        assertThrows(CommandException.class, ResumeCommand.MESSAGE_FILE_NOT_FOUND, () -> command.execute(model));
     }
 
     @Test
