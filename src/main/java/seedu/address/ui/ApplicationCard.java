@@ -11,6 +11,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -18,6 +19,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import seedu.address.model.application.Application;
+import seedu.address.model.application.ApplicationEvent;
 
 /**
  * A UI component that displays information of a {@code Application}.
@@ -42,6 +44,9 @@ public class ApplicationCard extends UiPart<Region> {
     @FXML private FlowPane tags;
     @FXML private Label deadline;
     @FXML private VBox detailsBox;
+    @FXML private Button eventButton;
+
+    private final EventDetailsWindow eventDetailsWindow;
 
     /**
      * Creates a {@code ApplicationCard} with the given {@code Application} and index to display.
@@ -49,6 +54,7 @@ public class ApplicationCard extends UiPart<Region> {
     public ApplicationCard(Application application, int displayedIndex) {
         super(FXML);
         this.application = application;
+        this.eventDetailsWindow = new EventDetailsWindow();
 
         id.setText(displayedIndex + ". ");
         role.setText(application.getRole().roleName);
@@ -100,6 +106,29 @@ public class ApplicationCard extends UiPart<Region> {
         if (!application.getResume().isEmpty()) {
             detailsBox.getChildren().add(
                     iconRow(FontAwesomeSolid.FILE_ALT, application.getResume().value));
+        }
+
+        // Show event button only if an ApplicationEvent exists
+        ApplicationEvent event = application.getApplicationEvent();
+        if (event != null) {
+            eventButton.setVisible(true);
+            eventButton.setManaged(true);
+            eventDetailsWindow.setEventDetails(event);
+        } else {
+            eventButton.setVisible(false);
+            eventButton.setManaged(false);
+        }
+    }
+
+    /**
+     * Handles click on the event button — shows or focuses the event details window.
+     */
+    @FXML
+    private void handleEventButtonClick() {
+        if (eventDetailsWindow.isShowing()) {
+            eventDetailsWindow.focus();
+        } else {
+            eventDetailsWindow.show();
         }
     }
 

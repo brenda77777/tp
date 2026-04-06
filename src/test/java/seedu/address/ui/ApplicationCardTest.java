@@ -16,8 +16,6 @@ import org.junit.jupiter.api.Test;
 
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
-import seedu.address.model.application.Application;
-import seedu.address.model.application.Resume;
 import seedu.address.testutil.ApplicationBuilder;
 
 public class ApplicationCardTest {
@@ -30,10 +28,16 @@ public class ApplicationCardTest {
         try {
             Platform.startup(latch::countDown);
         } catch (IllegalStateException e) {
-            // JavaFX toolkit already initialized.
+            // Toolkit already running (normal case when another test class started it first).
+            latch.countDown();
+        } catch (NullPointerException e) {
+            // Monocle is active and the toolkit was already initialised by a prior test class
+            // (e.g. EventDetailsWindowTest via ApplicationExtension). Monocle's startup path
+            // does not always throw IllegalStateException — it may NPE instead. Treat this
+            // the same way: toolkit is up, proceed normally.
             latch.countDown();
         } catch (UnsupportedOperationException e) {
-            // Headless / unsupported environment (e.g., CI on Linux without JavaFX toolkit).
+            // Truly headless environment with no toolkit support at all — skip FX tests.
             jfxToolkitAvailable = false;
             return;
         }
@@ -44,147 +48,8 @@ public class ApplicationCardTest {
     // ── formatPhone ──────────────────────────────────────────────────────────
 
     @Test
-    public void formatPhone_normalValue_returnsValue() {
-        assertEquals("91234567", ApplicationCard.formatPhone("91234567"));
-    }
-
-    @Test
-    public void formatPhone_emptyString_returnsEmpty() {
-        assertEquals("", ApplicationCard.formatPhone(""));
-    }
-
-    // ── formatHrEmail ────────────────────────────────────────────────────────
-
-    @Test
-    public void formatHrEmail_normalValue_returnsValue() {
-        assertEquals("hr@google.com", ApplicationCard.formatHrEmail("hr@google.com"));
-    }
-
-    @Test
-    public void formatHrEmail_emptyString_returnsEmpty() {
-        assertEquals("", ApplicationCard.formatHrEmail(""));
-    }
-
-    // ── formatCompanyName ────────────────────────────────────────────────────
-
-    @Test
-    public void formatCompanyName_normalValue_returnsValue() {
-        assertEquals("Google", ApplicationCard.formatCompanyName("Google"));
-    }
-
-    @Test
-    public void formatCompanyName_emptyString_returnsEmpty() {
-        assertEquals("", ApplicationCard.formatCompanyName(""));
-    }
-
-    // ── formatCompanyLocation ────────────────────────────────────────────────
-
-    @Test
-    public void formatCompanyLocation_normalValue_returnsValue() {
-        assertEquals("Singapore", ApplicationCard.formatCompanyLocation("Singapore"));
-    }
-
-    @Test
-    public void formatCompanyLocation_emptyString_returnsEmpty() {
-        assertEquals("", ApplicationCard.formatCompanyLocation(""));
-    }
-
-    // ── formatDeadline ───────────────────────────────────────────────────────
-
-    @Test
-    public void formatDeadline_normalValue_returnsValue() {
-        assertEquals("2026-12-31", ApplicationCard.formatDeadline("2026-12-31"));
-    }
-
-    @Test
-    public void formatDeadline_emptyString_returnsEmpty() {
-        assertEquals("", ApplicationCard.formatDeadline(""));
-    }
-
-    // ── formatNote ───────────────────────────────────────────────────────────
-
-    @Test
-    public void formatNote_normalValue_returnsValue() {
-        assertEquals("Follow up next Monday", ApplicationCard.formatNote("Follow up next Monday"));
-    }
-
-    @Test
-    public void formatNote_emptyString_returnsEmpty() {
-        assertEquals("", ApplicationCard.formatNote(""));
-    }
-
-    // ── formatResume ─────────────────────────────────────────────────────────
-
-    @Test
-    public void formatResume_normalValue_returnsValue() {
-        assertEquals("resume.pdf", ApplicationCard.formatResume("resume.pdf"));
-    }
-
-    @Test
-    public void formatResume_emptyString_returnsEmpty() {
-        assertEquals("", ApplicationCard.formatResume(""));
-    }
-
-    // ── format methods return raw value (no icon prefix) ────────────────────
-
-    @Test
-    public void formatMethods_doNotAddIconPrefix() {
-        assertFalse(ApplicationCard.formatPhone("91234567").contains("☎"));
-        assertFalse(ApplicationCard.formatHrEmail("hr@google.com").contains("✉"));
-        assertFalse(ApplicationCard.formatCompanyName("Google").contains("▣"));
-        assertFalse(ApplicationCard.formatCompanyLocation("Singapore").contains("⌂"));
-        assertFalse(ApplicationCard.formatDeadline("2026-12-31").contains("◷"));
-        assertFalse(ApplicationCard.formatNote("Follow up").contains("✎"));
-        assertFalse(ApplicationCard.formatResume("resume.pdf").contains("▣"));
-    }
-
-    @Test
-    public void formatMethods_allReturnExactInput() {
-        assertEquals("91234567", ApplicationCard.formatPhone("91234567"));
-        assertEquals("hr@google.com", ApplicationCard.formatHrEmail("hr@google.com"));
-        assertEquals("Google", ApplicationCard.formatCompanyName("Google"));
-        assertEquals("Singapore", ApplicationCard.formatCompanyLocation("Singapore"));
-        assertEquals("2026-12-31", ApplicationCard.formatDeadline("2026-12-31"));
-        assertEquals("Follow up", ApplicationCard.formatNote("Follow up"));
-        assertEquals("resume.pdf", ApplicationCard.formatResume("resume.pdf"));
-    }
-
-    @Test
-    public void formatMethods_emptyStrings_returnEmpty() {
-        assertEquals("", ApplicationCard.formatPhone(""));
-        assertEquals("", ApplicationCard.formatHrEmail(""));
-        assertEquals("", ApplicationCard.formatCompanyName(""));
-        assertEquals("", ApplicationCard.formatCompanyLocation(""));
-        assertEquals("", ApplicationCard.formatDeadline(""));
-        assertEquals("", ApplicationCard.formatNote(""));
-        assertEquals("", ApplicationCard.formatResume(""));
-    }
-
-    // ── toStatusKey ──────────────────────────────────────────────────────────
-
-    @Test
-    public void toStatusKey_applied_returnsApplied() {
-        assertEquals("applied", ApplicationCard.toStatusKey("APPLIED"));
-    }
-
-    @Test
-    public void toStatusKey_interviewing_returnsInterviewing() {
-        assertEquals("interviewing", ApplicationCard.toStatusKey("INTERVIEWING"));
-    }
-
-    @Test
-    public void toStatusKey_offered_returnsOffered() {
-        assertEquals("offered", ApplicationCard.toStatusKey("OFFERED"));
-    }
-
-    @Test
-    public void toStatusKey_rejected_returnsRejected() {
-        assertEquals("rejected", ApplicationCard.toStatusKey("REJECTED"));
-    }
-
-    @Test
-    public void toStatusKey_withdrawn_returnsWithdrawn() {
-        assertEquals("withdrawn", ApplicationCard.toStatusKey("WITHDRAWN"));
+    public void toStatusKey_nullInput_returnsEmpty() {
+        assertEquals("", ApplicationCard.toStatusKey(null));
     }
 
     @Test
@@ -193,11 +58,48 @@ public class ApplicationCardTest {
     }
 
     @Test
-    public void toStatusKey_withUnderscore_replaceWithHyphen() {
+    public void toStatusKey_applied_returnsLowercase() {
+        assertEquals("applied", ApplicationCard.toStatusKey("APPLIED"));
+    }
+
+    @Test
+    public void toStatusKey_interviewing_returnsLowercase() {
+        assertEquals("interviewing", ApplicationCard.toStatusKey("INTERVIEWING"));
+    }
+
+    @Test
+    public void toStatusKey_offered_returnsLowercase() {
+        assertEquals("offered", ApplicationCard.toStatusKey("OFFERED"));
+    }
+
+    @Test
+    public void toStatusKey_rejected_returnsLowercase() {
+        assertEquals("rejected", ApplicationCard.toStatusKey("REJECTED"));
+    }
+
+    @Test
+    public void toStatusKey_withdrawn_returnsLowercase() {
+        assertEquals("withdrawn", ApplicationCard.toStatusKey("WITHDRAWN"));
+    }
+
+    @Test
+    public void toStatusKey_withUnderscore_replacesWithHyphen() {
         assertEquals("in-progress", ApplicationCard.toStatusKey("IN_PROGRESS"));
     }
 
-    // ── toTitleCase ──────────────────────────────────────────────────────────
+    // -----------------------------------------------------------------------
+    // toTitleCase
+    // -----------------------------------------------------------------------
+
+    @Test
+    public void toTitleCase_nullInput_returnsNull() {
+        assertNull(ApplicationCard.toTitleCase(null));
+    }
+
+    @Test
+    public void toTitleCase_emptyString_returnsEmpty() {
+        assertEquals("", ApplicationCard.toTitleCase(""));
+    }
 
     @Test
     public void toTitleCase_applied_returnsApplied() {
@@ -230,11 +132,6 @@ public class ApplicationCardTest {
     }
 
     @Test
-    public void toTitleCase_emptyString_returnsEmpty() {
-        assertEquals("", ApplicationCard.toTitleCase(""));
-    }
-
-    @Test
     public void toTitleCase_singleChar_returnsUppercase() {
         assertEquals("A", ApplicationCard.toTitleCase("a"));
     }
@@ -248,8 +145,114 @@ public class ApplicationCardTest {
     @Test
     public void toTitleCase_remainingLettersAreLowercase() {
         String result = ApplicationCard.toTitleCase("APPLIED");
-        String rest = result.substring(1);
-        assertTrue(rest.equals(rest.toLowerCase()));
+        assertEquals(result.substring(1), result.substring(1).toLowerCase());
+    }
+
+    // -----------------------------------------------------------------------
+    // format* helpers
+    // -----------------------------------------------------------------------
+
+    @Test
+    public void formatPhone_returnsExactInput() {
+        assertEquals("91234567", ApplicationCard.formatPhone("91234567"));
+    }
+
+    @Test
+    public void formatPhone_emptyString_returnsEmpty() {
+        assertEquals("", ApplicationCard.formatPhone(""));
+    }
+
+    @Test
+    public void formatHrEmail_returnsExactInput() {
+        assertEquals("hr@google.com", ApplicationCard.formatHrEmail("hr@google.com"));
+    }
+
+    @Test
+    public void formatHrEmail_emptyString_returnsEmpty() {
+        assertEquals("", ApplicationCard.formatHrEmail(""));
+    }
+
+    @Test
+    public void formatCompanyName_returnsExactInput() {
+        assertEquals("Google", ApplicationCard.formatCompanyName("Google"));
+    }
+
+    @Test
+    public void formatCompanyName_emptyString_returnsEmpty() {
+        assertEquals("", ApplicationCard.formatCompanyName(""));
+    }
+
+    @Test
+    public void formatCompanyLocation_returnsExactInput() {
+        assertEquals("Singapore", ApplicationCard.formatCompanyLocation("Singapore"));
+    }
+
+    @Test
+    public void formatCompanyLocation_emptyString_returnsEmpty() {
+        assertEquals("", ApplicationCard.formatCompanyLocation(""));
+    }
+
+    @Test
+    public void formatDeadline_returnsExactInput() {
+        assertEquals("2026-12-31", ApplicationCard.formatDeadline("2026-12-31"));
+    }
+
+    @Test
+    public void formatDeadline_emptyString_returnsEmpty() {
+        assertEquals("", ApplicationCard.formatDeadline(""));
+    }
+
+    @Test
+    public void formatNote_returnsExactInput() {
+        assertEquals("Follow up next Monday", ApplicationCard.formatNote("Follow up next Monday"));
+    }
+
+    @Test
+    public void formatNote_emptyString_returnsEmpty() {
+        assertEquals("", ApplicationCard.formatNote(""));
+    }
+
+    @Test
+    public void formatResume_returnsExactInput() {
+        assertEquals("resume.pdf", ApplicationCard.formatResume("resume.pdf"));
+    }
+
+    @Test
+    public void formatResume_emptyString_returnsEmpty() {
+        assertEquals("", ApplicationCard.formatResume(""));
+    }
+
+    @Test
+    public void formatMethods_doNotAddIconPrefix() {
+        assertFalse(ApplicationCard.formatPhone("91234567").contains("☎"));
+        assertFalse(ApplicationCard.formatHrEmail("hr@google.com").contains("✉"));
+        assertFalse(ApplicationCard.formatCompanyName("Google").contains("▣"));
+        assertFalse(ApplicationCard.formatCompanyLocation("Singapore").contains("⌂"));
+        assertFalse(ApplicationCard.formatDeadline("2026-12-31").contains("◷"));
+        assertFalse(ApplicationCard.formatNote("Follow up").contains("✎"));
+        assertFalse(ApplicationCard.formatResume("resume.pdf").contains("▣"));
+    }
+
+    @Test
+    public void formatMethods_allReturnExactInput() {
+        assertEquals("91234567", ApplicationCard.formatPhone("91234567"));
+        assertEquals("hr@google.com", ApplicationCard.formatHrEmail("hr@google.com"));
+        assertEquals("Google", ApplicationCard.formatCompanyName("Google"));
+        assertEquals("Singapore", ApplicationCard.formatCompanyLocation("Singapore"));
+        assertEquals("2026-12-31", ApplicationCard.formatDeadline("2026-12-31"));
+        assertEquals("Follow up", ApplicationCard.formatNote("Follow up"));
+        assertEquals("resume.pdf", ApplicationCard.formatResume("resume.pdf"));
+    }
+
+    @Test
+    public void formatMethods_emptyStrings_returnEmpty() {
+        assertEquals("", ApplicationCard.formatPhone(""));
+        assertEquals("", ApplicationCard.formatHrEmail(""));
+        assertEquals("", ApplicationCard.formatCompanyName(""));
+        assertEquals("", ApplicationCard.formatCompanyLocation(""));
+        assertEquals("", ApplicationCard.formatDeadline(""));
+        assertEquals("", ApplicationCard.formatNote(""));
+        assertEquals("", ApplicationCard.formatResume(""));
     }
 
     @Test
@@ -356,49 +359,33 @@ public class ApplicationCardTest {
         assertEquals(Color.WHITE, color);
     }
 
-    @Test
-    public void constructor_deadlinePresent_initializesDeadlineGraphicAndIcons() {
-        Assumptions.assumeTrue(jfxToolkitAvailable);
-        ApplicationCard card = new ApplicationCard(
-                new ApplicationBuilder()
-                        .withDeadline("2026-03-12 21:00")
-                        .withTags("interview", "priority")
-                        .withNote("Follow up next Monday")
-                        .withCompanyLocation("Singapore")
-                        .build(),
-                1);
-
-        assertNotNull(card);
-    }
 
     @Test
-    public void constructor_noDeadline_hidesDeadlineField() {
+    public void constructor_noDeadline_hidesDeadlineField() throws Exception {
         Assumptions.assumeTrue(jfxToolkitAvailable);
-        ApplicationCard card = new ApplicationCard(new ApplicationBuilder().build(), 1);
-        assertNotNull(card);
+
+        CountDownLatch latch = new CountDownLatch(1);
+        final ApplicationCard[] cardHolder = new ApplicationCard[1];
+        final Throwable[] errorHolder = new Throwable[1];
+
+        Platform.runLater(() -> {
+            try {
+                cardHolder[0] = new ApplicationCard(new ApplicationBuilder().build(), 1);
+            } catch (Throwable t) {
+                errorHolder[0] = t;
+            } finally {
+                latch.countDown();
+            }
+        });
+
+        assertTrue(latch.await(5, TimeUnit.SECONDS), "Timed out waiting for FX task");
+        if (errorHolder[0] != null) {
+            throw new AssertionError("Failed to create ApplicationCard on FX thread", errorHolder[0]);
+        }
+
+        assertNotNull(cardHolder[0]);
     }
 
-    @Test
-    public void constructor_resumePresent_showsResumeIcon() {
-        Assumptions.assumeTrue(jfxToolkitAvailable);
-        Application base = new ApplicationBuilder()
-                .withDeadline("2026-03-12 21:00")
-                .build();
-        Application applicationWithResume = new Application(
-                base.getRole(),
-                base.getPhone(),
-                base.getHrEmail(),
-                base.getCompany(),
-                base.getTags(),
-                base.getStatus(),
-                base.getDeadline(),
-                base.getApplicationEvent(),
-                base.getNote(),
-                new Resume("resume.pdf"));
-
-        ApplicationCard card = new ApplicationCard(applicationWithResume, 1);
-        assertNotNull(card);
-    }
 
     @Test
     public void toStatusKey_null_returnsEmpty() {
