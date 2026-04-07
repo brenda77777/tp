@@ -247,22 +247,6 @@ How the `reminder` command works:
 1. `ReminderCommand` commits the updated application book state through `Model#commitAddressBook()`.
 
 
-## Add Feature
-
-The sequence diagram below illustrates the interactions within the `Logic` component for an `add` command.
-
-![Interactions Inside the Logic Component for the `add` Command](images/AddSequenceDiagram-Logic.png)
-
-How the `add` command works:
-
-1. When the user enters an `add` command, `LogicManager` passes it to `AddressBookParser`.
-1. `AddressBookParser` creates an `AddCommandParser` to parse command arguments.
-1. `AddCommandParser` validates and parses fields (e.g., role, phone, email, company, and optional fields).
-1. An `AddCommand` object is created and executed.
-1. `AddCommand` checks whether the target application already exists (`Model#hasApplication`).
-1. If not duplicated, the new application is added (`Model#addApplication`).
-1. The updated application book state is committed through `Model#commitAddressBook()`.
-
 ## Sort Feature
 
 The sequence diagram below illustrates the interactions within the `Logic` component for a `sort` command.
@@ -277,6 +261,23 @@ How the `sort` command works:
 1. A `SortCommand` object is created and executed.
 1. `SortCommand` selects a comparator based on the parsed criteria.
 1. `SortCommand` updates the sorted application list (`Model#updateSortedApplicationList(...)`).
+1. The updated application book state is committed through `Model#commitAddressBook()`.
+
+
+## Add Feature
+
+The sequence diagram below illustrates the interactions within the `Logic` component for an `add` command.
+
+![Interactions Inside the Logic Component for the `add` Command](images/AddSequenceDiagram-Logic.png)
+
+How the `add` command works:
+
+1. When the user enters an `add` command, `LogicManager` passes it to `AddressBookParser`.
+1. `AddressBookParser` creates an `AddCommandParser` to parse command arguments.
+1. `AddCommandParser` validates and parses fields (e.g., role, phone, email, company, and optional fields).
+1. An `AddCommand` object is created and executed.
+1. `AddCommand` checks whether the target application already exists (`Model#hasApplication`).
+1. If not duplicated, the new application is added (`Model#addApplication`).
 1. The updated application book state is committed through `Model#commitAddressBook()`.
 
 
