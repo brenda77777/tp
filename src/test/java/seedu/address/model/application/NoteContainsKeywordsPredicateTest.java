@@ -53,6 +53,12 @@ public class NoteContainsKeywordsPredicateTest {
 
         assertTrue(predicate.test(applicationWithFollow));
         assertTrue(predicate.test(applicationWithRecruiter));
+
+        NoteContainsKeywordsPredicate partialPredicate =
+                new NoteContainsKeywordsPredicate(Arrays.asList("foll", "RECRUIT"));
+
+        assertTrue(partialPredicate.test(applicationWithFollow));
+        assertTrue(partialPredicate.test(applicationWithRecruiter));
     }
 
     @Test

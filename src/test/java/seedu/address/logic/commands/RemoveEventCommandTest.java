@@ -2,19 +2,18 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_APPLICATION_DISPLAYED_INDEX;
 import static seedu.address.testutil.Assert.assertThrows;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,116 +24,108 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.application.Application;
+import seedu.address.model.application.ApplicationEvent;
 import seedu.address.model.application.Company;
 import seedu.address.model.application.Deadline;
 import seedu.address.model.application.HrEmail;
 import seedu.address.model.application.Note;
+import seedu.address.model.application.OnlineAssessment;
 import seedu.address.model.application.Phone;
 import seedu.address.model.application.Resume;
 import seedu.address.model.application.Role;
 import seedu.address.model.application.Status;
 import seedu.address.model.tag.Tag;
 
-public class ResumeCommandTest {
+public class RemoveEventCommandTest {
 
-    @TempDir
-    public Path tempDir;
+    // ── constructor ──────────────────────────────────────────────────────────
 
     @Test
     public void constructor_nullIndex_throwsNullPointerException() {
-        Resume resume = new Resume("resume.pdf");
-        assertThrows(NullPointerException.class, () -> new ResumeCommand(null, resume));
+        assertThrows(NullPointerException.class, () -> new RemoveEventCommand(null));
     }
 
-    @Test
-    public void constructor_nullResume_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new ResumeCommand(Index.fromOneBased(1), null));
-    }
+    // ── execute: success ─────────────────────────────────────────────────────
 
     @Test
-    public void execute_validIndex_success() throws Exception {
-        Path resumePath = Files.createFile(tempDir.resolve("resume.pdf"));
-
-        Application original = createApplication("");
+    public void execute_validIndexWithEvent_removesEvent() throws Exception {
+        ApplicationEvent event = new OnlineAssessment("home",
+                LocalDateTime.of(2026, 5, 1, 10, 0), "HackerRank", "www.hackerrank.com");
+        Application original = createApplicationWithEvent(event);
         ModelStub model = new ModelStub(original);
 
-        Resume resume = new Resume(resumePath.toString());
-        ResumeCommand command = new ResumeCommand(Index.fromOneBased(1), resume);
+        RemoveEventCommand command = new RemoveEventCommand(Index.fromOneBased(1));
         CommandResult result = command.execute(model);
 
-        Application expected = createApplication(resumePath.toString());
-
-        assertEquals(
-                String.format(ResumeCommand.MESSAGE_SUCCESS, expected),
-                result.getFeedbackToUser()
-        );
+        // The updated application should have a null event
+        Application expected = createApplicationWithEvent(null);
+        assertEquals(String.format(RemoveEventCommand.MESSAGE_SUCCESS, expected),
+                result.getFeedbackToUser());
         assertEquals(expected, model.applicationSet);
         assertTrue(model.commitCalled);
     }
 
+    // ── execute: failure ─────────────────────────────────────────────────────
+
     @Test
     public void execute_invalidIndex_throwsCommandException() {
-        Application original = createApplication("");
+        ApplicationEvent event = new OnlineAssessment("home",
+                LocalDateTime.of(2026, 5, 1, 10, 0), "HackerRank", "www.hackerrank.com");
+        Application original = createApplicationWithEvent(event);
         ModelStub model = new ModelStub(original);
 
-        ResumeCommand command = new ResumeCommand(
-                Index.fromOneBased(2),
-                new Resume("resume.pdf")
-        );
+        RemoveEventCommand command = new RemoveEventCommand(Index.fromOneBased(2));
 
         assertThrows(CommandException.class, MESSAGE_INVALID_APPLICATION_DISPLAYED_INDEX, () -> command.execute(model));
     }
 
     @Test
-    public void execute_fileNotFound_throwsCommandException() {
-        Application original = createApplication("");
+    public void execute_noEvent_throwsCommandException() {
+        Application original = createApplicationWithEvent(null);
         ModelStub model = new ModelStub(original);
 
-        ResumeCommand command = new ResumeCommand(
-                Index.fromOneBased(1),
-                new Resume(tempDir.resolve("missing.pdf").toString())
-        );
+        RemoveEventCommand command = new RemoveEventCommand(Index.fromOneBased(1));
 
-        assertThrows(CommandException.class, ResumeCommand.MESSAGE_FILE_NOT_FOUND, () -> command.execute(model));
+        assertThrows(CommandException.class, RemoveEventCommand.MESSAGE_NO_EVENT, () -> command.execute(model));
     }
 
-    @Test
-    public void execute_invalidPath_throwsCommandException() {
-        Application original = createApplication("");
-        ModelStub model = new ModelStub(original);
-
-        ResumeCommand command = new ResumeCommand(
-                Index.fromOneBased(1),
-                new Resume("resume.pdf")
-        );
-
-        assertThrows(CommandException.class, ResumeCommand.MESSAGE_FILE_NOT_FOUND, () -> command.execute(model));
-    }
+    // ── equals ───────────────────────────────────────────────────────────────
 
     @Test
     public void equals() {
-        ResumeCommand firstCommand = new ResumeCommand(
-                Index.fromOneBased(1),
-                new Resume("a.pdf")
-        );
-        ResumeCommand secondCommand = new ResumeCommand(
-                Index.fromOneBased(2),
-                new Resume("b.pdf")
-        );
-        ResumeCommand firstCommandCopy = new ResumeCommand(
-                Index.fromOneBased(1),
-                new Resume("a.pdf")
-        );
+        RemoveEventCommand firstCommand = new RemoveEventCommand(Index.fromOneBased(1));
+        RemoveEventCommand secondCommand = new RemoveEventCommand(Index.fromOneBased(2));
+        RemoveEventCommand firstCommandCopy = new RemoveEventCommand(Index.fromOneBased(1));
 
-        assertTrue(firstCommand.equals(firstCommand));
-        assertTrue(firstCommand.equals(firstCommandCopy));
+        // same object
+        assertEquals(firstCommand, firstCommand);
 
-        assertFalse(firstCommand.equals(1));
-        assertFalse(firstCommand.equals(null));
-        assertFalse(firstCommand.equals(secondCommand));
+        // same index
+        assertEquals(firstCommand, firstCommandCopy);
+
+        // different type
+        assertNotEquals(1, firstCommand);
+
+        // null
+        assertNotEquals(null, firstCommand);
+
+        // different index
+        assertNotEquals(firstCommand, secondCommand);
     }
 
-    private static Application createApplication(String resumePath) {
+    // ── toString ─────────────────────────────────────────────────────────────
+
+    @Test
+    public void toStringMethod() {
+        Index targetIndex = Index.fromOneBased(1);
+        RemoveEventCommand command = new RemoveEventCommand(targetIndex);
+        String expected = RemoveEventCommand.class.getCanonicalName() + "{index=" + targetIndex + "}";
+        assertEquals(expected, command.toString());
+    }
+
+    // ── helpers ──────────────────────────────────────────────────────────────
+
+    private static Application createApplicationWithEvent(ApplicationEvent event) {
         return new Application(
                 new Role("Software Engineer"),
                 new Phone("91234567"),
@@ -143,20 +134,18 @@ public class ResumeCommandTest {
                 new HashSet<Tag>(),
                 Status.APPLIED,
                 Deadline.getEmptyDeadline(),
-                null,
+                event,
                 new Note(""),
-                new Resume(resumePath)
-        );
+                Resume.getEmptyResume());
     }
 
-    /**
-     * A default model stub that only supports the methods needed by ResumeCommand.
-     */
+    // ── ModelStub ─────────────────────────────────────────────────────────────
+
     private static class ModelStub implements Model {
         private final ObservableList<Application> filteredApplications =
                 FXCollections.observableArrayList();
         private Application applicationSet;
-        private boolean commitCalled;
+        private boolean commitCalled = false;
 
         ModelStub(Application application) {
             filteredApplications.add(application);
@@ -171,7 +160,6 @@ public class ResumeCommandTest {
         public void setApplication(Application target, Application editedApplication) {
             requireNonNull(target);
             requireNonNull(editedApplication);
-
             applicationSet = editedApplication;
             int index = filteredApplications.indexOf(target);
             filteredApplications.set(index, editedApplication);
@@ -182,7 +170,6 @@ public class ResumeCommandTest {
             commitCalled = true;
         }
 
-        // Unused methods below
         @Override
         public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
             throw new AssertionError();
