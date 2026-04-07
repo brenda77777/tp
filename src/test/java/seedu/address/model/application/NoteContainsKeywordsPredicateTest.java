@@ -35,6 +35,19 @@ public class NoteContainsKeywordsPredicateTest {
         assertFalse(firstPredicate.equals(null));
 
         // different values -> returns false
+        // Same object -> returns true
+        assertTrue(firstPredicate.equals(firstPredicate));
+
+        // Same values -> returns true
+        assertTrue(firstPredicate.equals(new NoteContainsKeywordsPredicate(Collections.singletonList("follow"))));
+
+        // Different type -> returns false
+        assertFalse(firstPredicate.equals(1));
+
+        // Null -> returns false
+        assertFalse(firstPredicate.equals(null));
+
+        // Different predicate -> returns false
         assertFalse(firstPredicate.equals(secondPredicate));
     }
 

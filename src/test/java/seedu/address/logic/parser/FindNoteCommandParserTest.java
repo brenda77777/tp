@@ -15,11 +15,12 @@ import seedu.address.model.application.NoteContainsKeywordsPredicate;
 
 public class FindNoteCommandParserTest {
 
-    private FindNoteCommandParser parser = new FindNoteCommandParser();
+    private final FindNoteCommandParser parser = new FindNoteCommandParser();
 
     @Test
     public void parse_emptyArg_throwsParseException() {
-        // EP: empty input -> invalid command format
+        // EP: empty / blank input
+        // Boundary value: whitespace-only input
         assertThrows(ParseException.class,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindNoteCommand.MESSAGE_USAGE), ()
                         -> parser.parse("   "));
@@ -92,9 +93,20 @@ public class FindNoteCommandParserTest {
     @Test
     public void parse_validArgs_returnsFindNoteCommand() throws Exception {
         // EP: normal valid input -> returns expected FindNoteCommand
+    public void parse_validArgsMultipleKeywords_returnsFindNoteCommand() throws Exception {
+        // EP: valid input with multiple keywords
         FindNoteCommand expectedFindNoteCommand =
                 new FindNoteCommand(new NoteContainsKeywordsPredicate(Arrays.asList("follow", "recruiter")));
 
         assertEquals(expectedFindNoteCommand, parser.parse(" follow recruiter"));
+    }
+
+    @Test
+    public void parse_validArgsWithExtraSpaces_returnsFindNoteCommand() throws Exception {
+        // EP: valid input with irregular spacing
+        FindNoteCommand expectedFindNoteCommand =
+                new FindNoteCommand(new NoteContainsKeywordsPredicate(Arrays.asList("follow", "recruiter")));
+
+        assertEquals(expectedFindNoteCommand, parser.parse("   follow    recruiter   "));
     }
 }
