@@ -284,7 +284,7 @@ How the `add` command works:
 ## Delete Feature
 
 `delete` is already covered by the core Logic sequence walkthrough in the Design section
-([`DeleteSequenceDiagram`](images/DeleteSequenceDiagram.png)).
+![`DeleteSequenceDiagram`](images/DeleteSequenceDiagram.png)
 This section focuses on features that have additional design considerations (`edit`, `deadline`).
 
 ## Edit Feature
