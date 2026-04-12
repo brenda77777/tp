@@ -681,7 +681,7 @@ Related interactions with similar flow:
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Role**: The position/title applied for.
-* **Status**: The current progress state of an application (e.g. SAVED, APPLIED, OA, INTERVIEW, OFFER, REJECTED, WITHDRAWN).
+* **Status**: The current stage of an internship application (e.g. APPLIED, INTERVIEWING, OFFERED, REJECTED, WITHDRAWN).
 * **Company**: The organisation that offers the opportunity.
 * **Record**: The complete collection of information stored in the system about users submitting internship applications to enterprises.
 * **Industry Categorization**: The industry labels marked by users for enterprises (such as Internet, finance, manufacturing, etc.)
